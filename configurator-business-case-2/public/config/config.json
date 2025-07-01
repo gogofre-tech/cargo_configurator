@@ -19,7 +19,6 @@
     "storage": {
       "deck_dimensions_mm": null, "closed_storage_mm":null, "tank": null, "cold_chain": null,
       "front_face": true, "sideboard": true,
-      // "sideboard_extension": "optionnel", // Moved to options
       "box_storage": { "mechanical_tipping": true, "side_gates": true, "stabilizer_legs": true }
     },
     "maneuverability": null,
@@ -54,7 +53,6 @@
       "closed_storage_mm": { "length": 370, "width": 217, "height": 300 },
       "tank": { "capacity_l": 150, "max_pressure_bar": 140 },
       "cold_chain": null, "front_face": true, "sideboard": true,
-      // "sideboard_extension": "optionnel", // Moved to options
       "box_storage": null
     },
     "maneuverability": null,
@@ -113,16 +111,13 @@
     "braking": {
       "hydraulic_disc_front_rear": true,
       "parking_brake_mechanical": true
-      // "parking_brake_electric" moved to options
     },
     "safety_features": {
       "mirrors": true,
       "lighting": ["phare AV", "phare AR", "stop position", "clignotants"],
-      // "reverse_alarm", "rear_radar", "hill_start_assist" moved to options
       "cameras": false
     },
     "comfort_equipment": {
-      // "roof" moved to options
       "front_protection": "bulle courte",
       "fork": "suspendue",
       "rear_suspension": true,
@@ -131,14 +126,12 @@
       "pedestrian_mode": true,
       "pedal_assist": { "assist_levels": 5, "speed_assist_kmh": 25 },
       "screen_size_in": 4
-      // "phone_mount" moved to options
     },
     "storage": {
       "deck_dimensions_mm": null, "closed_storage_mm": null, "tank": null, "cold_chain": null,
       "front_face": null, "sideboard": null, "sideboard_extension": null,
       "box_storage": {
         "mechanical_opening_keys": true
-        // rfid_door_opening, flat_bottom_shelf, etc. moved to options
       }
     },
     "maneuverability": {"turning_radius_m": 2.4},
@@ -157,8 +150,6 @@
       {"id": "amenagements_interieurs_modulables", "label": "Aménagements intérieurs modulables", "price": 250, "type": "boolean", "default_value": false, "category": "available_configurations"},
       {"id": "porte_arriere_laterale_droite", "label": "Porte arrière et latérale droite", "price": 300, "type": "boolean", "default_value": false, "category": "available_configurations"}
     ],
-    // "available_configurations" is now integrated into the "options" array.
-    // If you still want to display the original strings, you can keep it, but for configuration logic, "options" is primary.
     "available_configurations_original_text": ["Aménagements intérieurs modulables", "Porte arrière et latérale droite"],
     "notes": "Capacité de 150 kg et 1.5 m³, autonomie jusqu’à 35 km (sur batterie pleine)*. Maniabilité rayon 2.4 m."
   },
@@ -209,18 +200,13 @@
     "braking": {
       "hydraulic_disc_front_rear": true,
       "parking_brake_mechanical": true
-      // "parking_brake_electric": "optionnel" // Moved to options
     },
     "safety_features": {
       "mirrors": true,
       "lighting": ["phare AV", "phare AR", "stop position", "clignotants"],
-      // "reverse_alarm": "optionnel", // Moved to options
-      // "rear_radar": "optionnel", // Moved to options
-      // "hill_start_assist": "optionnel", // Moved to options
       "cameras": false
     },
     "comfort_equipment": {
-      // "roof": "optionnel", // Moved to options
       "front_protection": "bulle courte",
       "fork": "suspendue",
       "rear_suspension": true,
@@ -229,14 +215,10 @@
       "pedestrian_mode": true,
       "pedal_assist": { "assist_levels": 5, "speed_assist_kmh": 25 },
       "screen_size_in": 4
-      // "phone_mount": "optionnel" // Moved to options
     },
     "storage":{
       "deck_dimensions_mm": { "length": 1260, "width": 910, "height": 1224 },
       "closed_storage_mm":null, "tank": null, "cold_chain": null,
-      // "front_face": "optionnel", // Moved to options
-      // "sideboard": "optionnel", // Moved to options
-      // "sideboard_extension": "optionnel", // Moved to options
       "box_storage": null
     },
     "maneuverability": {"turning_radius_m": 2.4},
@@ -278,7 +260,6 @@
       "deck_dimensions_mm": { "length": 1440, "width": 984, "height": 1100 },
       "closed_storage_mm":null, "tank": null, "cold_chain": null,
       "front_face": true, "sideboard": true,
-      // "sideboard_extension": "optionnel", // Moved to options
       "box_storage": null
     },
     "maneuverability": {"turning_radius_m": 2.4},
