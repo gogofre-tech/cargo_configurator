@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Configurator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Bike Configurator</h1>
+    </header>
+    <main>
+        <section id="model-selection">
+            <h2>Select Bike Model</h2>
+            <select id="bike-model-select"></select>
+            <img id="bike-image" src="" alt="Selected bike image">
+            <p>Base Price: <span id="base-price">€0</span></p>
+        </section>
+        <section id="customization-options">
+            <h2>Customize Your Bike</h2>
+            <div id="options-container"></div>
+        </section>
+        <section id="total-price-section">
+            <h2>Total Price</h2>
+            <p><span id="total-price">€0</span></p>
+        </section>
+        <section id="contact-form-section">
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="company">Company:</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                <button type="submit">Submit Configuration</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Renault Trucks - Kargo Bike</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
