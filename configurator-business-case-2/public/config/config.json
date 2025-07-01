@@ -1,0 +1,293 @@
+{
+  "bike": [{
+    "model": "Collect Freegônes",
+    "base_price": 12000,
+    "image_filename": "kleuster-1-r7g2js9mb6qtg2qut0wmyj3shctx1ojgvyprqd06e0.png",
+    "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
+    "category": "Vélo cargo benne basculante",
+    "usage": ["campings", "golfs", "parcs", "stades", "propreté", "collectivités", "entretien espaces verts"],
+    "warranty_years": 5,
+    "dimensions_m": { "length": 3.5, "width": 1.1 },
+    "payload": { "max_weight_kg": 250, "max_volume_m3": 1.2 },
+    "range_km": 70,
+    "battery": { "type": "Fer Phosphate", "capacity_kWh": 5.2, "recharge": "prise classique 16A 220V 50Hz", "regenerative_braking": true },
+    "motor": { "type": "Brushless", "power_W": 250, "transmission": "courroie" },
+    "conformity": "Normes vélo à assistance électrique",
+    "braking": { "hydraulic_disc_front_rear": true, "parking_brake_mechanical": true, "parking_brake_electric": true },
+    "safety_features": { "mirrors": false, "lighting": ["phare AV", "phare AR", "stop position", "clignotants"], "reverse_alarm": true, "rear_radar": false, "hill_start_assist": true, "cameras": true },
+    "comfort_equipment": { "roof": true, "front_protection": "bulle intégrale", "fork": "suspendue", "rear_suspension": false, "comfort_seat": true, "code_unlocking": true, "pedestrian_mode": true, "pedal_assist": { "assist_levels": "fixe", "speed_assist_kmh": 18 }, "screen_size_in": 4.3, "phone_mount": false },
+    "storage": {
+      "deck_dimensions_mm": null, "closed_storage_mm":null, "tank": null, "cold_chain": null,
+      "front_face": true, "sideboard": true,
+      // "sideboard_extension": "optionnel", // Moved to options
+      "box_storage": { "mechanical_tipping": true, "side_gates": true, "stabilizer_legs": true }
+    },
+    "maneuverability": null,
+    "options": [
+      {"id": "sideboard_extension", "label": "Sideboard Extension", "price": 220, "type": "boolean", "default_value": false, "category": "storage"},
+      {"id": "deversement_mecanique", "label": "Déversement mécanique", "price": 450, "type": "boolean", "default_value": true, "category": "available_configurations"}, // Assuming this is standard but listed
+      {"id": "portillons_lateraux", "label": "Portillons latéraux", "price": 300, "type": "boolean", "default_value": true, "category": "available_configurations"}, // Assuming this is standard but listed
+      {"id": "bequilles_stabilisatrices", "label": "Béquilles stabilisatrices", "price": 180, "type": "boolean", "default_value": true, "category": "available_configurations"} // Assuming this is standard but listed
+    ],
+    "available_configurations_original_text": ["Déversement mécanique", "Portillons latéraux", "Béquilles stabilisatrices"],
+    "notes": "Performance : se déverse mécaniquement en 20 secondes. Capacité : 250 kg et 1.2 m³. Autonomie jusqu’à 70 km.*"
+  },
+  {
+    "model": "Cleaner Freegônes",
+    "base_price": 11500,
+    "image_filename": "kleuster-responsive-hp-2025.jpg", // Placeholder, might need a specific cleaner image
+    "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
+    "category": "Vélo cargo utilitaire",
+    "usage": ["campings", "golfs", "parcs", "stades", "collectivités", "entretien espaces verts"],
+    "warranty_years": 5,
+    "dimensions_m": { "length": 3.5, "width": 1.1 },
+    "payload": { "max_weight_kg": 200, "max_volume_m3": 1.1 },
+    "range_km": 70,
+    "battery": { "type": "Fer Phosphate", "capacity_kWh": 5.2, "recharge": "prise classique 16A 220V 50Hz", "regenerative_braking": true },
+    "motor": { "type": "Brushless", "power_W": 250, "transmission": "courroie" },
+    "conformity": "Normes vélo à assistance électrique",
+    "braking": { "hydraulic_disc_front_rear": true, "parking_brake_mechanical": true, "parking_brake_electric": true },
+    "safety_features": { "mirrors": false, "lighting": ["phare AV", "phare AR", "stop position", "clignotants"], "reverse_alarm": true, "rear_radar": false, "hill_start_assist": true, "cameras": true },
+    "comfort_equipment": { "roof": true, "front_protection": "bulle intégrale", "fork": "suspendue", "rear_suspension": false, "comfort_seat": true, "code_unlocking": true, "pedestrian_mode": true, "pedal_assist": { "assist_levels": "fixe", "speed_assist_kmh": 18 }, "screen_size_in": 4.3, "phone_mount": false },
+    "storage": {
+      "deck_dimensions_mm": null,
+      "closed_storage_mm": { "length": 370, "width": 217, "height": 300 },
+      "tank": { "capacity_l": 150, "max_pressure_bar": 140 },
+      "cold_chain": null, "front_face": true, "sideboard": true,
+      // "sideboard_extension": "optionnel", // Moved to options
+      "box_storage": null
+    },
+    "maneuverability": null,
+    "options": [
+      {"id": "sideboard_extension", "label": "Sideboard Extension", "price": 200, "type": "boolean", "default_value": false, "category": "storage"},
+      {"id": "plateau_court", "label": "Plateau court", "price": 0, "type": "boolean", "default_value": true, "category": "available_configurations"} // Assuming standard feature
+    ],
+    "available_configurations_original_text": ["plateau court"],
+    "notes": "Les informations sont susceptibles de modifications. L’autonomie dépend de l’usage réel."
+  },
+  {
+    "model": "Fridge Freegônes",
+    "base_price": 13000,
+    "image_filename": "box-freegones-produit-3e-r7fvtxelstns44222zbfw291x6wxhddtyvr3c9lxeg.png", // Assuming this is a fridge model
+    "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
+    "category": "Vélo cargo réfrigéré",
+    "usage": ["livraisons alimentaires", "dernier kilomètre", "transport sous chaîne du froid"],
+    "warranty_years": 5,
+    "dimensions_m": { "length": 3.5, "width": 1.1 },
+    "payload": { "max_weight_kg": 200, "max_volume_m3": 1.3 },
+    "range_km": 60,
+    "battery": { "type": "Fer Phosphate", "capacity_kWh": 5.2, "recharge": "prise classique 16A 220V 50Hz", "regenerative_braking": true },
+    "motor": { "type": "Brushless", "power_W": 250, "transmission": "courroie" },
+    "conformity": "Normes vélo à assistance électrique",
+    "braking": { "hydraulic_disc_front_rear": true, "parking_brake_mechanical": true, "parking_brake_electric": true },
+    "safety_features": { "mirrors": false, "lighting": ["phare AV", "phare AR", "stop position", "clignotants"], "reverse_alarm": true, "rear_radar": false, "hill_start_assist": true, "cameras": true },
+    "comfort_equipment": { "roof": true, "front_protection": "bulle intégrale", "fork": "suspendue", "rear_suspension": false, "comfort_seat": true, "code_unlocking": true, "pedestrian_mode": true, "pedal_assist": { "assist_levels": "fixe", "speed_assist_kmh": 18 }, "screen_size_in": 4.3, "phone_mount": false },
+    "storage": {
+      "deck_dimensions_mm": null, "closed_storage_mm": null, "tank": null,
+      "cold_chain": { "temperature_min_c": -20, "door_contact": true, "internal_light": true, "temperature_control": "thermostat extérieur" },
+      "front_face": null, "sideboard": null, "sideboard_extension": null, "box_storage": null
+    },
+    "maneuverability": null,
+    "options": [
+      {"id": "thermal_isotherme", "label": "Isotherme", "price": 500, "type": "boolean", "default_value": true, "category": "thermal_choice"},
+      {"id": "thermal_froid_plus", "label": "Froid +", "price": 700, "type": "boolean", "default_value": false, "category": "thermal_choice"},
+      {"id": "thermal_froid_minus", "label": "Froid -", "price": 900, "type": "boolean", "default_value": false, "category": "thermal_choice"}
+    ],
+    "available_configurations_original_text": ["isotherme", "froid +", "froid -"],
+    "notes": "Les informations sont susceptibles de modifications. L’autonomie dépend de l’usage réel."
+  },
+  {
+  "model": "Box 350",
+    "base_price": 9500,
+    "image_filename": "box-2-r7g2qmjc1s3xxwt4uzcw3syk4b432dp55tmzguv13s.png",
+    "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
+    "category": "Vélo cargo caisse fermée",
+    "usage": ["artisans", "maintenance", "livraisons", "messagerie", "livraisons alimentaires"],
+    "warranty_years": 5,
+    "dimensions_m": { "length": 3, "width": 1 },
+    "payload": { "max_weight_kg": 150, "max_volume_m3": 1.5 },
+    "range_km": 35,
+    "battery": { "type": "Fer Phosphate", "capacity_kWh": 1.5, "recharge": "prise classique 16A 220V 50Hz", "regenerative_braking": true },
+    "motor": { "type": "Moteur roue", "power_W": "2 * 125", "transmission": "chainless pédalier" },
+    "conformity": "Normes vélo à assistance électrique",
+    "braking": {
+      "hydraulic_disc_front_rear": true,
+      "parking_brake_mechanical": true
+      // "parking_brake_electric" moved to options
+    },
+    "safety_features": {
+      "mirrors": true,
+      "lighting": ["phare AV", "phare AR", "stop position", "clignotants"],
+      // "reverse_alarm", "rear_radar", "hill_start_assist" moved to options
+      "cameras": false
+    },
+    "comfort_equipment": {
+      // "roof" moved to options
+      "front_protection": "bulle courte",
+      "fork": "suspendue",
+      "rear_suspension": true,
+      "comfort_seat": true,
+      "code_unlocking": true,
+      "pedestrian_mode": true,
+      "pedal_assist": { "assist_levels": 5, "speed_assist_kmh": 25 },
+      "screen_size_in": 4
+      // "phone_mount" moved to options
+    },
+    "storage": {
+      "deck_dimensions_mm": null, "closed_storage_mm": null, "tank": null, "cold_chain": null,
+      "front_face": null, "sideboard": null, "sideboard_extension": null,
+      "box_storage": {
+        "mechanical_opening_keys": true
+        // rfid_door_opening, flat_bottom_shelf, etc. moved to options
+      }
+    },
+    "maneuverability": {"turning_radius_m": 2.4},
+    "options": [
+      {"id": "parking_brake_electric", "label": "Parking Brake (Electric)", "price": 200, "type": "boolean", "default_value": false, "category": "braking"},
+      {"id": "reverse_alarm", "label": "Reverse Alarm", "price": 80, "type": "boolean", "default_value": false, "category": "safety_features"},
+      {"id": "rear_radar", "label": "Rear Radar", "price": 150, "type": "boolean", "default_value": false, "category": "safety_features"},
+      {"id": "hill_start_assist", "label": "Hill Start Assist", "price": 120, "type": "boolean", "default_value": false, "category": "safety_features"},
+      {"id": "roof", "label": "Roof", "price": 350, "type": "boolean", "default_value": false, "category": "comfort_equipment"},
+      {"id": "phone_mount", "label": "Phone Mount", "price": 50, "type": "boolean", "default_value": false, "category": "comfort_equipment"},
+      {"id": "rfid_door_opening", "label": "RFID Door Opening", "price": 180, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
+      {"id": "flat_bottom_shelf", "label": "Flat Bottom Shelf", "price": 90, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
+      {"id": "interior_light_box", "label": "Interior Light (Box)", "price": 70, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
+      {"id": "aero_tie_down_rails", "label": "Aero Tie-Down Rails", "price": 110, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
+      {"id": "adjustable_height_shelf", "label": "Adjustable Height Shelf", "price": 130, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
+      {"id": "amenagements_interieurs_modulables", "label": "Aménagements intérieurs modulables", "price": 250, "type": "boolean", "default_value": false, "category": "available_configurations"},
+      {"id": "porte_arriere_laterale_droite", "label": "Porte arrière et latérale droite", "price": 300, "type": "boolean", "default_value": false, "category": "available_configurations"}
+    ],
+    // "available_configurations" is now integrated into the "options" array.
+    // If you still want to display the original strings, you can keep it, but for configuration logic, "options" is primary.
+    "available_configurations_original_text": ["Aménagements intérieurs modulables", "Porte arrière et latérale droite"],
+    "notes": "Capacité de 150 kg et 1.5 m³, autonomie jusqu’à 35 km (sur batterie pleine)*. Maniabilité rayon 2.4 m."
+  },
+  {
+  "model": "Box Freegônes",
+    "base_price": 12500,
+    "image_filename": "box-freegones-produit-2-r7fv3fcf3zdqrwjvu0x43906z3jdgl69zpl98ewiu0.png",
+    "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
+    "category": "Vélo cargo caisse fermée",
+    "usage": ["artisans", "maintenance", "livraisons", "messagerie", "livraisons alimentaires"],
+    "warranty_years": 5,
+    "dimensions_m": { "length": 3.5, "width": 1.1 },
+    "payload": { "max_weight_kg": 300, "max_volume_m3": 2 },
+    "range_km": 80,
+    "battery": { "type": "Fer Phosphate", "capacity_kWh": 5.2, "recharge": "prise classique 16A 220V 50Hz", "regenerative_braking": true },
+    "motor": { "type": "Brushless", "power_W": 250, "transmission": "courroie" },
+    "conformity": "Normes vélo à assistance électrique",
+    "braking": { "hydraulic_disc_front_rear": true, "parking_brake_mechanical": true, "parking_brake_electric": true },
+    "safety_features": { "mirrors": false, "lighting": ["phare AV", "phare AR", "stop position", "clignotants"], "reverse_alarm": true, "rear_radar": false, "hill_start_assist": true, "cameras": true },
+    "comfort_equipment": { "roof": true, "front_protection": "bulle intégrale", "fork": "suspendue", "rear_suspension": false, "comfort_seat": true, "code_unlocking": true, "pedestrian_mode": true, "pedal_assist": { "assist_levels": "fixe", "speed_assist_kmh": 18 }, "screen_size_in": 4.3, "phone_mount": false },
+    "storage": {
+      "deck_dimensions_mm": null, "closed_storage_mm": null, "tank": null, "cold_chain": null,
+      "front_face": null, "sideboard": null, "sideboard_extension": null,
+      "box_storage": { "mechanical_opening_keys": true, "rfid_door_opening": false, "flat_bottom_shelf": false, "interior_light": false, "aero_tie_down_rails": false, "adjustable_height_shelf": false }
+    },
+    "maneuverability": {"turning_radius_m": 2.4},
+    "options": [
+      {"id": "rideau_lateral_droit", "label": "Rideau latéral droit", "price": 350, "type": "boolean", "default_value": false, "category": "available_configurations"},
+      {"id": "porte_arriere_laterale_droite_box", "label": "Porte arrière et latérale droite", "price": 320, "type": "boolean", "default_value": false, "category": "available_configurations"}
+    ],
+    "available_configurations_original_text": ["Rideau latéral droit", "Porte arrière et latérale droite"],
+    "notes": "Capacité de 300 kg et 2 m³, autonomie jusqu’à 80 km (sur batterie pleine)*. Maniabilité rayon 2.4 m."
+  },
+  {
+  "model": "Pick-up 350",
+    "base_price": 9000,
+    "image_filename": "kleuster-pickup-350-v4-1-r7ha8iu3gtpdbw984clef5lu9r075z79gam20j39eg.png",
+    "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
+    "category": "Vélo cargo plateau",
+    "usage": ["artisans", "maintenance", "intrasites", "industriel", "transport palettisé", "propreté", "collectivités", "entretien espaces verts"],
+    "warranty_years": 5,
+    "dimensions_m": { "length": 3, "width": 1 },
+    "payload": { "max_weight_kg": 150, "max_volume_m3": 1.4 },
+    "range_km": 35,
+    "battery": { "type": "Fer Phosphate", "capacity_kWh": 1.5, "recharge": "prise classique 16A 220V 50Hz", "regenerative_braking": true },
+    "motor": { "type": "Moteur roue", "power_W": "2 * 125", "transmission": "chainless pédalier" },
+    "conformity": "Normes vélo à assistance électrique",
+    "braking": {
+      "hydraulic_disc_front_rear": true,
+      "parking_brake_mechanical": true
+      // "parking_brake_electric": "optionnel" // Moved to options
+    },
+    "safety_features": {
+      "mirrors": true,
+      "lighting": ["phare AV", "phare AR", "stop position", "clignotants"],
+      // "reverse_alarm": "optionnel", // Moved to options
+      // "rear_radar": "optionnel", // Moved to options
+      // "hill_start_assist": "optionnel", // Moved to options
+      "cameras": false
+    },
+    "comfort_equipment": {
+      // "roof": "optionnel", // Moved to options
+      "front_protection": "bulle courte",
+      "fork": "suspendue",
+      "rear_suspension": true,
+      "comfort_seat": true,
+      "code_unlocking": true,
+      "pedestrian_mode": true,
+      "pedal_assist": { "assist_levels": 5, "speed_assist_kmh": 25 },
+      "screen_size_in": 4
+      // "phone_mount": "optionnel" // Moved to options
+    },
+    "storage":{
+      "deck_dimensions_mm": { "length": 1260, "width": 910, "height": 1224 },
+      "closed_storage_mm":null, "tank": null, "cold_chain": null,
+      // "front_face": "optionnel", // Moved to options
+      // "sideboard": "optionnel", // Moved to options
+      // "sideboard_extension": "optionnel", // Moved to options
+      "box_storage": null
+    },
+    "maneuverability": {"turning_radius_m": 2.4},
+    "options": [
+      {"id": "pickup350_parking_brake_electric", "label": "Parking Brake (Electric)", "price": 180, "type": "boolean", "default_value": false, "category": "braking"},
+      {"id": "pickup350_reverse_alarm", "label": "Reverse Alarm", "price": 70, "type": "boolean", "default_value": false, "category": "safety_features"},
+      {"id": "pickup350_rear_radar", "label": "Rear Radar", "price": 140, "type": "boolean", "default_value": false, "category": "safety_features"},
+      {"id": "pickup350_hill_start_assist", "label": "Hill Start Assist", "price": 110, "type": "boolean", "default_value": false, "category": "safety_features"},
+      {"id": "pickup350_roof", "label": "Roof", "price": 300, "type": "boolean", "default_value": false, "category": "comfort_equipment"},
+      {"id": "pickup350_phone_mount", "label": "Phone Mount", "price": 45, "type": "boolean", "default_value": false, "category": "comfort_equipment"},
+      {"id": "pickup350_front_face", "label": "Front Face", "price": 150, "type": "boolean", "default_value": false, "category": "storage"},
+      {"id": "pickup350_sideboard", "label": "Sideboard", "price": 250, "type": "boolean", "default_value": false, "category": "storage"},
+      {"id": "pickup350_sideboard_extension", "label": "Sideboard Extension", "price": 120, "type": "boolean", "default_value": false, "category": "storage"},
+      {"id": "pickup350_plateau_simple", "label": "Plateau simple", "price": 0, "type": "boolean", "default_value": true, "category": "available_configurations"},
+      {"id": "pickup350_ridelles", "label": "Ridelles", "price": 280, "type": "boolean", "default_value": false, "category": "available_configurations"},
+      {"id": "pickup350_rehausses_ridelles", "label": "Réhausses ridelles", "price": 180, "type": "boolean", "default_value": false, "category": "available_configurations"}
+    ],
+    "available_configurations_original_text": ["Plateau simple", "Ridelles", "Réhausses ridelles"],
+    "notes": "Données Pick-up 350 issues de pick-up-fr.pdf"
+  },
+  {
+  "model": "Pick-up Freegônes",
+    "base_price": 11000,
+    "image_filename": "kleuster-pickup-350-v4-2-r7ha8kpruhrxz46htdenk54rgiqxldeq4jx0z30h20.png", // Might be a variant or different model
+    "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
+    "category": "Vélo cargo plateau",
+    "usage": ["artisans", "maintenance", "intrasites", "industriel", "transport palettisé", "propreté", "collectivités", "entretien espaces verts"],
+    "warranty_years": 5,
+    "dimensions_m": { "length": 3.5, "width": 1.1 },
+    "payload": { "max_weight_kg": 270, "max_volume_m3": 1.5 },
+    "range_km": 80,
+    "battery": { "type": "Fer Phosphate", "capacity_kWh": 5.2, "recharge": "prise classique 16A 220V 50Hz", "regenerative_braking": true },
+    "motor": { "type": "Brushless", "power_W": 250, "transmission": "courroie" },
+    "conformity": "Normes vélo à assistance électrique",
+    "braking": { "hydraulic_disc_front_rear": true, "parking_brake_mechanical": true, "parking_brake_electric": true },
+    "safety_features": { "mirrors": false, "lighting": ["phare AV", "phare AR", "stop position", "clignotants"], "reverse_alarm": true, "rear_radar": false, "hill_start_assist": true, "cameras": true },
+    "comfort_equipment": { "roof": true, "front_protection": "bulle integrale", "fork": "suspendue", "rear_suspension": false, "comfort_seat": true, "code_unlocking": true, "pedestrian_mode": true, "pedal_assist": { "assist_levels": "fixe", "speed_assist_kmh": 18 }, "screen_size_in": 4.3, "phone_mount": false },
+    "storage":{
+      "deck_dimensions_mm": { "length": 1440, "width": 984, "height": 1100 },
+      "closed_storage_mm":null, "tank": null, "cold_chain": null,
+      "front_face": true, "sideboard": true,
+      // "sideboard_extension": "optionnel", // Moved to options
+      "box_storage": null
+    },
+    "maneuverability": {"turning_radius_m": 2.4},
+    "options": [
+      {"id": "pickupfg_sideboard_extension", "label": "Sideboard Extension", "price": 240, "type": "boolean", "default_value": false, "category": "storage"},
+      {"id": "pickupfg_ridelles", "label": "Ridelles", "price": 300, "type": "boolean", "default_value": true, "category": "available_configurations"}, // Assuming standard
+      {"id": "pickupfg_rehausses_ridelles", "label": "Réhausses ridelles", "price": 190, "type": "boolean", "default_value": false, "category": "available_configurations"}
+    ],
+    "available_configurations_original_text": ["Ridelles", "Réhausses ridelles"],
+    "notes": "Données Pick-up freegones issues de pick-up-fr.pdf"
+  }
+]}
