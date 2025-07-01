@@ -2,16 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Assuming this is the correct path
-
-import Image from 'next/image'; // Import the Next.js Image component
-import { Checkbox } from "@/components/ui/checkbox"; // Import Checkbox
-import { Label } from "@/components/ui/label"; // Import Label
-
-import Image from 'next/image'; // Import the Next.js Image component
+import Image from 'next/image';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input"; // Import Input
-import { Button } from "@/components/ui/button"; // Import Button
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface OptionConfig { // Renamed from Option to avoid conflict with HTMLOptionElement if used globally
   id: string;
