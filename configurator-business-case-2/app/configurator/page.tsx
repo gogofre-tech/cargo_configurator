@@ -28,6 +28,7 @@ interface BikeModel {
   base_price: number;
   image_filename: string;
   options?: OptionConfig[];
+  introduction_fr?: string; // Added introduction field
   // Add other French-keyed standard equipment fields if they need to be accessed directly for display
   // e.g., batterie_standard, moteur_standard, notes_fr
   [key: string]: any;
@@ -181,12 +182,12 @@ const ConfiguratorPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">Bike Configurator</h1>
+    <div className="container mx-auto p-4 md:p-8"> {/* Added more padding on medium screens up */}
+      {/* Main title removed */}
 
       {!selectedBike ? (
         <>
-          <h2 className="text-2xl font-semibold mb-6 text-center">Select a Bike Model</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center">Choisissez un modèle de vélo</h2> {/* Translated & styled */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {bikeModels.map((bike) => (
               <Card key={bike.model} onClick={() => handleSelectBike(bike)} className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden">
@@ -236,39 +237,33 @@ const ConfiguratorPage = () => {
           </div>
 
           {/* Right Column (Details, Options, Summary, Form - Scrollable) */}
-          <div className="w-full md:w-1/2 space-y-6">
-            <div> {/* Details Section */}
-              <h2 className="text-3xl font-bold mb-2">{selectedBike.nom_modele_fr || selectedBike.model}</h2> {/* Display French name */}
-              <p className="text-lg text-gray-700 mb-1">{selectedBike.fabricant}</p> {/* Display French manufacturer */}
-              <p className="text-md text-gray-600 mb-4">{selectedBike.categorie_fr}</p> {/* Display French category */}
-              <p className="text-2xl font-semibold text-blue-600 mb-6">Prix de base : €{selectedBike.base_price?.toLocaleString()}</p> {/* Translated */}
+          <div className="w-full md:w-1/2 space-y-8"> {/* Increased spacing between major blocks */}
+            {/* Details Section - including new Introduction */}
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h2 className="text-3xl font-bold mb-2">{selectedBike.nom_modele_fr || selectedBike.model}</h2>
+              {selectedBike.introduction_fr && (
+                <p className="text-md text-gray-700 mb-4 leading-relaxed">{selectedBike.introduction_fr}</p>
+              )}
+              <p className="text-lg text-gray-600 mb-1"><span className="font-semibold">Fabricant:</span> {selectedBike.fabricant}</p>
+              <p className="text-md text-gray-600 mb-4"><span className="font-semibold">Catégorie:</span> {selectedBike.categorie_fr}</p>
+              <p className="text-2xl font-semibold text-blue-700">Prix de base : €{selectedBike.base_price?.toLocaleString()}</p>
             </div>
 
-            <div className="p-4 border rounded-lg bg-gray-50 shadow"> {/* Options Section */}
-              <h3 className="text-xl font-semibold mb-4 text-center">Options de personnalisation</h3> {/* Translated */}
+            {/* Options Section - consistent styling */}
+            <div className="p-6 border rounded-lg bg-white shadow">
+              <h3 className="text-2xl font-semibold mb-6 text-center border-b pb-3">Options de personnalisation</h3>
               {selectedBike?.options && selectedBike.options.length > 0 ? (
                 (() => {
                   const groupedOptions: Record<string, OptionConfig[]> = {};
                   selectedBike.options!.forEach(option => {
-                    const category = option.category || "Autres options"; // Default French category
+                    const category = option.category || "Autres options";
                     if (!groupedOptions[category]) {
                       groupedOptions[category] = [];
                     }
                     groupedOptions[category].push(option);
                   });
 
-                  // Define a preferred order for French categories
-                  const categoryOrderFr = [
-                    "Sécurité et conduite",
-                    "Équipements et confort",
-                    "Gestion du chargement",
-                    "Options de plateforme",
-                    "Options de chargement", // For Collect Freegones
-                    "Gestion de la benne", // For Collect Freegones, if specific
-                    "Configuration thermique", // For Fridge Freegones
-                    "Autres options" // Catch-all
-                  ];
-
+                  const categoryOrderFr = ["Sécurité et conduite", "Équipements et confort", "Gestion du chargement", "Options de plateforme", "Options de chargement", "Gestion de la benne", "Configuration thermique", "Autres options"];
                   const sortedCategories = Object.keys(groupedOptions).sort((a, b) => {
                     let indexA = categoryOrderFr.indexOf(a);
                     let indexB = categoryOrderFr.indexOf(b);
@@ -278,14 +273,13 @@ const ConfiguratorPage = () => {
                   });
 
                   return sortedCategories.map(category => (
-                    <div key={category} className="mb-6">
-                      <h4 className="text-lg font-medium text-gray-700 mb-3 border-b pb-2">
-                        {/* Category name is already in French from config_v2.json, no need to replace underscores */}
+                    <div key={category} className="mb-6 last:mb-0">
+                      <h4 className="text-xl font-semibold text-gray-800 mb-3 border-b pb-2">
                         {category}
                       </h4>
                       <div className="space-y-3">
                         {groupedOptions[category].map((option) => (
-                          <div key={option.id} className="flex items-center space-x-2 p-2 rounded hover:bg-gray-100">
+                          <div key={option.id} className="flex items-center space-x-3 p-2.5 rounded-md hover:bg-gray-50 transition-colors">
                             <Checkbox
                               id={option.id}
                               checked={selectedOptions[option.id] || false}
@@ -293,13 +287,13 @@ const ConfiguratorPage = () => {
                             />
                             <Label
                               htmlFor={option.id}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              className="text-sm font-medium text-gray-700 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex-grow"
                               title={option.description}
                             >
                               {option.label}
-                              {option.price > 0 && <span className="text-xs text-gray-500 ml-2">(+€{option.price.toLocaleString()})</span>}
-                              {!option.price && selectedBike.base_price && option.default_value === undefined && !option.category?.includes("choice") && <span className="text-xs text-gray-400 ml-2">(Included)</span>}
-                              {option.price === 0 && option.default_value !== true && !option.category?.includes("choice") && <span className="text-xs text-green-600 ml-2">(Free Option)</span>}
+                              {option.price > 0 && <span className="text-xs text-gray-500 ml-2 font-normal">(+€{option.price.toLocaleString()})</span>}
+                              {!option.price && selectedBike.base_price && option.default_value === undefined && !option.category?.includes("choice") && <span className="text-xs text-gray-400 ml-2 font-normal">(Inclus)</span>}
+                              {option.price === 0 && option.default_value !== true && !option.category?.includes("choice") && <span className="text-xs text-green-600 ml-2 font-normal">(Option gratuite)</span>}
                             </Label>
                           </div>
                         ))}
@@ -308,41 +302,37 @@ const ConfiguratorPage = () => {
                   ));
                 })()
               ) : (
-                <p className="text-gray-500 text-center">No specific customization options listed for this model, or they are included as standard.</p>
+                <p className="text-gray-500 text-center py-4">Aucune option de personnalisation spécifique listée pour ce modèle, ou elles sont incluses de base.</p>
               )}
             </div>
 
-            <div className="p-6 border rounded-lg bg-white shadow-md"> {/* Summary Section */}
-              <h3 className="text-xl font-semibold mb-1 text-gray-700">Récapitulatif de la configuration</h3>
-              <p className="text-sm text-gray-500 mb-3">Prix de base : €{selectedBike.base_price?.toLocaleString()}</p>
-              <div className="mb-3">
-                <h4 className="text-md font-semibold text-gray-600 mb-1">Options sélectionnées :</h4>
-                <ul className="list-disc list-inside pl-1 text-sm">
-                  {selectedBike.options?.filter(opt => selectedOptions[opt.id] && opt.price > 0).map(opt => (
-                    <li key={`summary-${opt.id}`} className="text-gray-600">
-                      {opt.label}: <span className="font-medium">€{opt.price.toLocaleString()}</span>
-                    </li>
-                  ))}
-                  {selectedBike.options?.filter(opt => selectedOptions[opt.id] && opt.price === 0 && opt.default_value !== true).length > 0 &&
-                    selectedBike.options?.filter(opt => selectedOptions[opt.id] && opt.price === 0 && opt.default_value !== true ).map(opt => (
-                       <li key={`summary-${opt.id}`} className="text-gray-600">{opt.label}: <span className="font-medium text-green-600">Gratuit</span></li>
-                    ))
-                  }
-                </ul>
-                 {selectedBike.options?.filter(opt => selectedOptions[opt.id] && (opt.price > 0 || (opt.price === 0 && opt.default_value !== true))).length === 0 && <p className="text-xs text-gray-400">Aucune option supplémentaire sélectionnée.</p>}
+            {/* Summary Section - consistent styling */}
+            <div className="p-6 border rounded-lg bg-white shadow">
+              <h3 className="text-2xl font-semibold mb-3 text-gray-800 border-b pb-3">Récapitulatif</h3>
+              <div className="space-y-1 text-sm mb-3">
+                <div className="flex justify-between"><span>Prix de base :</span> <span>€{selectedBike.base_price?.toLocaleString()}</span></div>
+                {selectedBike.options?.filter(opt => selectedOptions[opt.id] && opt.price > 0).map(opt => (
+                  <div key={`summary-${opt.id}`} className="flex justify-between text-gray-600">
+                    <span>{opt.label}:</span> <span className="font-medium">€{opt.price.toLocaleString()}</span>
+                  </div>
+                ))}
+                {selectedBike.options?.filter(opt => selectedOptions[opt.id] && opt.price === 0 && opt.default_value !== true).map(opt => (
+                   <div key={`summary-${opt.id}`} className="flex justify-between text-gray-600"><span>{opt.label}:</span> <span className="font-medium text-green-600">Gratuit</span></div>
+                ))}
               </div>
+              {selectedBike.options?.filter(opt => selectedOptions[opt.id] && (opt.price > 0 || (opt.price === 0 && opt.default_value !== true))).length === 0 && <p className="text-xs text-gray-400 mb-3">Aucune option supplémentaire sélectionnée.</p>}
               <hr className="my-3"/>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mt-3">
                 <h3 className="text-xl font-bold text-gray-800">Prix Total :</h3>
                 <p className="text-2xl font-bold text-blue-700">€{totalPrice.toLocaleString()}</p>
               </div>
             </div>
 
-            {/* Contact Form moved here */}
-            <div className="mt-8 border-t pt-8">
+            {/* Contact Form - consistent styling */}
+            <div className="mt-8 pt-8 border-t">
               <h2 className="text-2xl font-semibold mb-6 text-center">Demander un devis / Plus d'informations</h2>
               {!formSubmitted ? (
-                <form onSubmit={handleFormSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
+                <form onSubmit={handleFormSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow">
                   <div>
                     <Label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">Nom complet</Label>
                     <Input type="text" id="contactName" value={contactName} onChange={(e) => setContactName(e.target.value)} required className="w-full" placeholder="Ex: Jeanne Dupont"/>

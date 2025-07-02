@@ -3,6 +3,7 @@
     {
       "model": "Box 350",
       "nom_modele_fr": "Box 350",
+      "introduction_fr": "Le Box 350 est un vélo cargo compact et agile, idéal pour les livraisons et la maintenance en milieu urbain. Sa caisse fermée sécurise vos marchandises.",
       "base_price": 9500,
       "image_filename": "box-2-r7g2qmjc1s3xxwt4uzcw3syk4b432dp55tmzguv13s.png",
       "fabricant": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
@@ -66,6 +67,7 @@
     {
       "model": "Collect Freegônes",
       "nom_modele_fr": "Collect Freegônes",
+      "introduction_fr": "Le Collect Freegônes est conçu pour la collecte efficace de déchets ou de matériaux grâce à sa benne basculante robuste et sa grande capacité.",
       "base_price": 12000,
       "image_filename": "kleuster-1-r7g2js9mb6qtg2qut0wmyj3shctx1ojgvyprqd06e0.png",
       "fabricant": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
@@ -97,6 +99,7 @@
     {
       "model": "Cleaner Freegônes",
       "nom_modele_fr": "Cleaner Freegônes",
+      "introduction_fr": "Le Cleaner Freegônes est un utilitaire spécialisé pour les opérations de nettoyage, équipé d'un réservoir et d'espaces de rangement dédiés.",
       "base_price": 11500,
       "image_filename": "kleuster-responsive-hp-2025.jpg",
       "fabricant": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
@@ -126,6 +129,7 @@
     {
       "model": "Fridge Freegônes",
       "nom_modele_fr": "Fridge Freegônes",
+      "introduction_fr": "Le Fridge Freegônes assure le transport de marchandises sous chaîne du froid, avec des configurations isotherme, froid positif ou négatif.",
       "base_price": 13000,
       "image_filename": "box-freegones-produit-3e-r7fvtxelstns44222zbfw291x6wxhddtyvr3c9lxeg.png",
       "fabricant": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
@@ -158,6 +162,7 @@
     {
       "model": "Box Freegônes",
       "nom_modele_fr": "Box Freegônes (Grand Volume)",
+      "introduction_fr": "Le Box Freegônes (Grand Volume) offre une capacité de chargement étendue pour les livraisons volumineuses et la logistique urbaine.",
       "base_price": 12500,
       "image_filename": "box-freegones-produit-2-r7fv3fcf3zdqrwjvu0x43906z3jdgl69zpl98ewiu0.png",
       "fabricant": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
@@ -191,6 +196,7 @@
     {
       "model": "Pick-up 350",
       "nom_modele_fr": "Pick-up 350",
+      "introduction_fr": "Le Pick-up 350 est un vélo cargo à plateau polyvalent, parfait pour le transport d'outils, de matériaux ou de petites palettes en ville.",
       "base_price": 9000,
       "image_filename": "kleuster-pickup-350-v4-1-r7ha8iu3gtpdbw984clef5lu9r075z79gam20j39eg.png",
       "fabricant": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
@@ -225,6 +231,7 @@
     {
       "model": "Pick-up Freegônes",
       "nom_modele_fr": "Pick-up Freegônes (Grand Modèle)",
+      "introduction_fr": "Le Pick-up Freegônes (Grand Modèle) combine une plus grande capacité de chargement sur plateau avec une autonomie étendue pour les besoins exigeants.",
       "base_price": 11000,
       "image_filename": "kleuster-pickup-350-v4-2-r7ha8kpruhrxz46htdenk54rgiqxldeq4jx0z30h20.png",
       "fabricant": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
