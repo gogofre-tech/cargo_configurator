@@ -221,10 +221,15 @@
         {"id": "pickup350_aide_demarrage_cote", "label": "Assistance au démarrage en côte", "price": 110, "type": "boolean", "default_value": false, "category": "Sécurité et conduite", "description": "Aide au démarrage en pente."},
         {"id": "pickup350_toit", "label": "Toit", "price": 300, "type": "boolean", "default_value": false, "category": "Équipements et confort", "description": "Toit optionnel pour le Pick-up 350."},
         {"id": "pickup350_support_telephone", "label": "Support téléphone", "price": 45, "type": "boolean", "default_value": false, "category": "Équipements et confort", "description": "Support pour smartphone."},
-        {"id": "pickup350_face_avant_chargement", "label": "Face avant de chargement", "price": 150, "type": "boolean", "default_value": false, "category": "Gestion du chargement", "description": "Face avant optionnelle pour la zone de chargement."},
-        {"id": "pickup350_ridelles_laterales", "label": "Ridelles latérales", "price": 250, "type": "boolean", "default_value": false, "category": "Gestion du chargement", "description": "Ridelles latérales pour le plateau de chargement."},
-        {"id": "pickup350_rehausses_ridelles", "label": "Réhausses de ridelles", "price": 120, "type": "boolean", "default_value": false, "category": "Gestion du chargement", "description": "Réhausses pour les ridelles latérales."},
-        {"id": "pickup350_plateau_simple", "label": "Plateau simple", "price": 0, "type": "boolean", "default_value": true, "category": "Gestion du chargement", "description": "Configuration standard avec plateau simple."}
+
+        {"id": "pickup350_plateau_simple", "label": "Plateau simple", "price": 0, "type": "boolean", "default_value": true, "category": "Type de plateau", "description": "Configuration standard avec plateau simple.", "image_filename_override": "kleuster-pickup-350-plateau.png"},
+        {"id": "pickup350_ridelles_laterales", "label": "Ridelles Latérales", "price": 250, "type": "boolean", "default_value": false, "category": "Type de plateau", "description": "Plateau équipé de ridelles latérales.", "image_filename_override": "kleuster-pickup-350-ridelle.png"},
+        {"id": "pickup350_rehausses_de_ridelles", "label": "Réhausses de ridelles", "price": 120, "type": "boolean", "default_value": false, "category": "Type de plateau", "description": "Plateau avec ridelles latérales et réhausses pour augmenter le volume.", "image_filename_override": "kleuster-pickup-350-rehausse.png"},
+
+        {"id": "pickup350_face_avant_chargement", "label": "Face avant de chargement", "price": 150, "type": "boolean", "default_value": false, "category": "Gestion du chargement (Accessoires)", "description": "Face avant optionnelle pour la zone de chargement."}
+        // Note: The original "Sideboard Extension" might be covered by "Réhausses de ridelles" or could be a separate finer-grained option.
+        // For now, "Réhausses de ridelles" is the more distinct option.
+        // The original "Sideboard" option is now "Ridelles Latérales".
       ],
       "notes_fr": "Batterie amovible. Données Pick-up 350 issues de pick-up-fr.pdf. Idéal pour le transport palettisé léger."
     },

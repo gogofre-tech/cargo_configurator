@@ -16,6 +16,7 @@ interface OptionConfig { // Renamed from Option to avoid conflict with HTMLOptio
   default_value?: boolean;    // Indicates if the option is selected by default
   category?: string;          // To group options or handle special logic e.g. "thermal_choice"
   description?: string;       // Description for tooltip/popover
+  image_filename_override?: string; // Optional image to display when this option is selected
   // sub_options?: OptionConfig[]; // For future 'choice' type
 }
 
@@ -43,6 +44,7 @@ const ConfiguratorPage = () => {
   const [selectedBike, setSelectedBike] = useState<BikeModel | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, boolean>>({});
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [currentDisplayImage, setCurrentDisplayImage] = useState<string | null>(null);
 
   // State for contact form
   const [contactName, setContactName] = useState('');
@@ -81,29 +83,40 @@ const ConfiguratorPage = () => {
 
       setSelectedOptions(initialSelected);
       setTotalPrice(currentTotalPrice);
+      setCurrentDisplayImage(bike.image_filename); // Set initial display image
+
+      // If it's Pick-up 350, find the default selected platform option and set its image
+      if (bike.model === "Pick-up 350") {
+        const defaultPlatformOption = bike.options?.find(opt => opt.category === "Type de plateau" && initialSelected[opt.id]);
+        if (defaultPlatformOption && defaultPlatformOption.image_filename_override) {
+          setCurrentDisplayImage(defaultPlatformOption.image_filename_override);
+        }
+      }
+
     } else {
       setSelectedOptions({});
       setTotalPrice(0);
+      setCurrentDisplayImage(null);
     }
   }, [selectedBike]);
 
-  // Recalculate price when options change
+  // Recalculate price and update display image when options change
   useEffect(() => {
     if (selectedBike) {
       let newTotal = selectedBike.base_price || 0;
+      let newImage = selectedBike.image_filename; // Default image
+
       (selectedBike.options || []).forEach(opt => {
         if (selectedOptions[opt.id]) {
-          // Special handling for mutually exclusive choices like 'thermal_choice'
-          if (opt.category === 'thermal_choice') {
-            // Ensure only the currently selected thermal option's price is added
-            // This logic assumes only one thermal_choice can be true in selectedOptions
-            newTotal += opt.price;
-          } else {
-            newTotal += opt.price;
+          newTotal += opt.price;
+          // Check for image override, specifically for Pick-up 350 platform type
+          if (selectedBike.model === "Pick-up 350" && opt.category === "Type de plateau" && opt.image_filename_override) {
+            newImage = opt.image_filename_override;
           }
         }
       });
       setTotalPrice(newTotal);
+      setCurrentDisplayImage(newImage);
     }
   }, [selectedOptions, selectedBike]);
 
@@ -117,22 +130,31 @@ const ConfiguratorPage = () => {
       const newSelected = { ...prev };
 
       // Handle 'thermal_choice' category for mutually exclusive selection
-      if (category === 'thermal_choice') {
-        // If the clicked option is already selected, deselect it (allow no thermal option)
-        // Or, if business rule is one must be selected, this logic would change.
-        // For now, allow toggling off.
-        if (newSelected[optionId]) {
-          newSelected[optionId] = false;
-        } else {
-          // Deselect all other thermal options
-          (selectedBike?.options || []).forEach(opt => {
-            if (opt.category === 'thermal_choice') {
-              newSelected[opt.id] = false;
-            }
-          });
-          // Select the clicked one
-          newSelected[optionId] = true;
+      if (category === 'Configuration thermique' || (selectedBike?.model === "Pick-up 350" && category === "Type de plateau")) {
+        // If the clicked option is already selected and it's a type that must have one selection (e.g. Type de plateau), do nothing.
+        if (newSelected[optionId] && category === "Type de plateau") {
+          return prev; // No change if clicking the already selected mandatory choice
         }
+
+        // Deselect all other options in this exclusive group
+        (selectedBike?.options || []).forEach(opt => {
+          if (opt.category === category) {
+            newSelected[opt.id] = false;
+          }
+        });
+        // Select the clicked one (it might have been deselected if it was a toggleable choice like thermal)
+        newSelected[optionId] = !prev[optionId] || category === "Type de plateau" ? true : !prev[optionId];
+
+        // Ensure for "Type de plateau" that one is always selected after a change
+        if (selectedBike?.model === "Pick-up 350" && category === "Type de plateau") {
+            const isAnySelected = (selectedBike?.options || []).some(opt => opt.category === category && newSelected[opt.id]);
+            if(!isAnySelected) {
+                // This case should ideally not be reached if one is default and cannot be deselected by clicking itself.
+                // If somehow all get deselected, re-select the clicked one or a default.
+                newSelected[optionId] = true;
+            }
+        }
+
       } else {
         // Regular toggle for other options
         newSelected[optionId] = !newSelected[optionId];
@@ -227,10 +249,11 @@ const ConfiguratorPage = () => {
             {selectedBike.image_filename && (
               <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-lg">
                 <Image
-                  src={`/assets/images/${selectedBike.image_filename}`}
+                  src={`/assets/images/${currentDisplayImage || selectedBike.image_filename}`}
                   alt={selectedBike.nom_modele_fr || selectedBike.model} // Use French name for alt text
                   layout="fill"
                   objectFit="contain"
+                  key={currentDisplayImage} // Add key to force re-render on image change
                 />
               </div>
             )}
