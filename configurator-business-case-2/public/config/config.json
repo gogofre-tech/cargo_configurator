@@ -34,7 +34,7 @@
   {
     "model": "Cleaner Freegônes",
     "base_price": 11500,
-    "image_filename": "kleuster-responsive-hp-2025.jpg", // Placeholder, might need a specific cleaner image
+    "image_filename": "kleuster-responsive-hp-2025.jpg",
     "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
     "category": "Vélo cargo utilitaire",
     "usage": ["campings", "golfs", "parcs", "stades", "collectivités", "entretien espaces verts"],
@@ -66,7 +66,7 @@
   {
     "model": "Fridge Freegônes",
     "base_price": 13000,
-    "image_filename": "box-freegones-produit-3e-r7fvtxelstns44222zbfw291x6wxhddtyvr3c9lxeg.png", // Assuming this is a fridge model
+    "image_filename": "box-freegones-produit-3e-r7fvtxelstns44222zbfw291x6wxhddtyvr3c9lxeg.png",
     "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
     "category": "Vélo cargo réfrigéré",
     "usage": ["livraisons alimentaires", "dernier kilomètre", "transport sous chaîne du froid"],
@@ -242,7 +242,7 @@
   {
   "model": "Pick-up Freegônes",
     "base_price": 11000,
-    "image_filename": "kleuster-pickup-350-v4-2-r7ha8kpruhrxz46htdenk54rgiqxldeq4jx0z30h20.png", // Might be a variant or different model
+    "image_filename": "kleuster-pickup-350-v4-2-r7ha8kpruhrxz46htdenk54rgiqxldeq4jx0z30h20.png",
     "manufacturer": "Freegônes / Renault Trucks (assemblage Saint-Priest)",
     "category": "Vélo cargo plateau",
     "usage": ["artisans", "maintenance", "intrasites", "industriel", "transport palettisé", "propreté", "collectivités", "entretien espaces verts"],
