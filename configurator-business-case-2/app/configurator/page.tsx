@@ -20,15 +20,17 @@ interface OptionConfig { // Renamed from Option to avoid conflict with HTMLOptio
 }
 
 interface BikeModel {
-  model: string;
-  manufacturer: string;
-  category: string;
+  model: string; // Keep original model ID for keys if it's stable
+  nom_modele_fr: string; // French display name
+  fabricant: string; // Already in French in V1, but good to ensure consistency
+  categorie_fr: string; // French category
+  usages_fr?: string[]; // French usage list
   base_price: number;
   image_filename: string;
-  options?: OptionConfig[]; // All configurable options are now in this array
-  // Remove individual optional fields like available_configurations, safety_features etc. if they are fully covered by the new options array.
-  // Keep them if they contain non-configurable descriptive data. For now, assume 'options' is comprehensive.
-  [key: string]: any; // Allow other properties from original config if needed for display
+  options?: OptionConfig[];
+  // Add other French-keyed standard equipment fields if they need to be accessed directly for display
+  // e.g., batterie_standard, moteur_standard, notes_fr
+  [key: string]: any;
 }
 
 interface ConfigData {
@@ -49,7 +51,7 @@ const ConfiguratorPage = () => {
 
 
   useEffect(() => {
-    fetch('/config/config.json') // Path relative to the public directory
+    fetch('/config/config_v2.json') // USE V2 CONFIG FILE
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
@@ -192,18 +194,18 @@ const ConfiguratorPage = () => {
                   <div className="relative w-full h-48">
                     <Image
                       src={`/assets/images/${bike.image_filename}`}
-                      alt={bike.model}
+                      alt={bike.nom_modele_fr || bike.model} // Use French name for alt text
                       layout="fill"
                       objectFit="cover"
                     />
                   </div>
                 )}
                 <CardHeader>
-                  <CardTitle>{bike.model}</CardTitle>
+                  <CardTitle>{bike.nom_modele_fr || bike.model}</CardTitle> {/* Display French name */}
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-600">{bike.manufacturer}</p>
-                  <p className="text-md mt-1">{bike.category}</p>
+                  <p className="text-sm text-gray-600">{bike.fabricant}</p> {/* Display French manufacturer */}
+                  <p className="text-md mt-1">{bike.categorie_fr}</p> {/* Display French category */}
                   <p className="text-lg font-semibold mt-2">€{bike.base_price?.toLocaleString()}</p>
                 </CardContent>
               </Card>
@@ -219,13 +221,13 @@ const ConfiguratorPage = () => {
               onClick={() => setSelectedBike(null)}
               className="mb-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow transition-colors"
             >
-              &larr; Back to Models
+              &larr; Retour aux modèles {/* Translated */}
             </button>
             {selectedBike.image_filename && (
               <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src={`/assets/images/${selectedBike.image_filename}`}
-                  alt={selectedBike.model}
+                  alt={selectedBike.nom_modele_fr || selectedBike.model} // Use French name for alt text
                   layout="fill"
                   objectFit="contain"
                 />
@@ -236,38 +238,50 @@ const ConfiguratorPage = () => {
           {/* Right Column (Details, Options, Summary, Form - Scrollable) */}
           <div className="w-full md:w-1/2 space-y-6">
             <div> {/* Details Section */}
-              <h2 className="text-3xl font-bold mb-2">{selectedBike.model}</h2>
-              <p className="text-lg text-gray-700 mb-1">{selectedBike.manufacturer}</p>
-              <p className="text-md text-gray-600 mb-4">{selectedBike.category}</p>
-              <p className="text-2xl font-semibold text-blue-600 mb-6">Base Price: €{selectedBike.base_price?.toLocaleString()}</p>
+              <h2 className="text-3xl font-bold mb-2">{selectedBike.nom_modele_fr || selectedBike.model}</h2> {/* Display French name */}
+              <p className="text-lg text-gray-700 mb-1">{selectedBike.fabricant}</p> {/* Display French manufacturer */}
+              <p className="text-md text-gray-600 mb-4">{selectedBike.categorie_fr}</p> {/* Display French category */}
+              <p className="text-2xl font-semibold text-blue-600 mb-6">Prix de base : €{selectedBike.base_price?.toLocaleString()}</p> {/* Translated */}
             </div>
 
             <div className="p-4 border rounded-lg bg-gray-50 shadow"> {/* Options Section */}
-              <h3 className="text-xl font-semibold mb-4 text-center">Customization Options</h3>
+              <h3 className="text-xl font-semibold mb-4 text-center">Options de personnalisation</h3> {/* Translated */}
               {selectedBike?.options && selectedBike.options.length > 0 ? (
                 (() => {
                   const groupedOptions: Record<string, OptionConfig[]> = {};
                   selectedBike.options!.forEach(option => {
-                    const category = option.category || "General";
+                    const category = option.category || "Autres options"; // Default French category
                     if (!groupedOptions[category]) {
                       groupedOptions[category] = [];
                     }
                     groupedOptions[category].push(option);
                   });
 
-                  const categoryOrder = ["available_configurations", "comfort_equipment", "safety_features", "storage", "storage.box_storage", "braking", "thermal_choice", "General"];
+                  // Define a preferred order for French categories
+                  const categoryOrderFr = [
+                    "Sécurité et conduite",
+                    "Équipements et confort",
+                    "Gestion du chargement",
+                    "Options de plateforme",
+                    "Options de chargement", // For Collect Freegones
+                    "Gestion de la benne", // For Collect Freegones, if specific
+                    "Configuration thermique", // For Fridge Freegones
+                    "Autres options" // Catch-all
+                  ];
+
                   const sortedCategories = Object.keys(groupedOptions).sort((a, b) => {
-                    let indexA = categoryOrder.indexOf(a);
-                    let indexB = categoryOrder.indexOf(b);
-                    if (indexA === -1) indexA = categoryOrder.length;
-                    if (indexB === -1) indexB = categoryOrder.length;
+                    let indexA = categoryOrderFr.indexOf(a);
+                    let indexB = categoryOrderFr.indexOf(b);
+                    if (indexA === -1) indexA = categoryOrderFr.length;
+                    if (indexB === -1) indexB = categoryOrderFr.length;
                     return indexA - indexB;
                   });
 
                   return sortedCategories.map(category => (
                     <div key={category} className="mb-6">
-                      <h4 className="text-lg font-medium capitalize text-gray-700 mb-3 border-b pb-2">
-                        {category.replace(/_/g, ' ').replace(/\./g, ' - ')}
+                      <h4 className="text-lg font-medium text-gray-700 mb-3 border-b pb-2">
+                        {/* Category name is already in French from config_v2.json, no need to replace underscores */}
+                        {category}
                       </h4>
                       <div className="space-y-3">
                         {groupedOptions[category].map((option) => (
@@ -299,10 +313,10 @@ const ConfiguratorPage = () => {
             </div>
 
             <div className="p-6 border rounded-lg bg-white shadow-md"> {/* Summary Section */}
-              <h3 className="text-xl font-semibold mb-1 text-gray-700">Configuration Summary</h3>
-              <p className="text-sm text-gray-500 mb-3">Base Price: €{selectedBike.base_price?.toLocaleString()}</p>
+              <h3 className="text-xl font-semibold mb-1 text-gray-700">Récapitulatif de la configuration</h3>
+              <p className="text-sm text-gray-500 mb-3">Prix de base : €{selectedBike.base_price?.toLocaleString()}</p>
               <div className="mb-3">
-                <h4 className="text-md font-semibold text-gray-600 mb-1">Selected Options:</h4>
+                <h4 className="text-md font-semibold text-gray-600 mb-1">Options sélectionnées :</h4>
                 <ul className="list-disc list-inside pl-1 text-sm">
                   {selectedBike.options?.filter(opt => selectedOptions[opt.id] && opt.price > 0).map(opt => (
                     <li key={`summary-${opt.id}`} className="text-gray-600">
@@ -311,48 +325,48 @@ const ConfiguratorPage = () => {
                   ))}
                   {selectedBike.options?.filter(opt => selectedOptions[opt.id] && opt.price === 0 && opt.default_value !== true).length > 0 &&
                     selectedBike.options?.filter(opt => selectedOptions[opt.id] && opt.price === 0 && opt.default_value !== true ).map(opt => (
-                       <li key={`summary-${opt.id}`} className="text-gray-600">{opt.label}: <span className="font-medium text-green-600">Free</span></li>
+                       <li key={`summary-${opt.id}`} className="text-gray-600">{opt.label}: <span className="font-medium text-green-600">Gratuit</span></li>
                     ))
                   }
                 </ul>
-                 {selectedBike.options?.filter(opt => selectedOptions[opt.id]).length === 0 && <p className="text-xs text-gray-400">No additional options selected.</p>}
+                 {selectedBike.options?.filter(opt => selectedOptions[opt.id] && (opt.price > 0 || (opt.price === 0 && opt.default_value !== true))).length === 0 && <p className="text-xs text-gray-400">Aucune option supplémentaire sélectionnée.</p>}
               </div>
               <hr className="my-3"/>
               <div className="flex justify-between items-center">
-                <h3 className="text-xl font-bold text-gray-800">Total Price:</h3>
+                <h3 className="text-xl font-bold text-gray-800">Prix Total :</h3>
                 <p className="text-2xl font-bold text-blue-700">€{totalPrice.toLocaleString()}</p>
               </div>
             </div>
 
             {/* Contact Form moved here */}
             <div className="mt-8 border-t pt-8">
-              <h2 className="text-2xl font-semibold mb-6 text-center">Request a Quote / More Information</h2>
+              <h2 className="text-2xl font-semibold mb-6 text-center">Demander un devis / Plus d'informations</h2>
               {!formSubmitted ? (
                 <form onSubmit={handleFormSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
                   <div>
-                    <Label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">Full Name</Label>
-                    <Input type="text" id="contactName" value={contactName} onChange={(e) => setContactName(e.target.value)} required className="w-full" placeholder="e.g. Jane Doe"/>
+                    <Label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">Nom complet</Label>
+                    <Input type="text" id="contactName" value={contactName} onChange={(e) => setContactName(e.target.value)} required className="w-full" placeholder="Ex: Jeanne Dupont"/>
                   </div>
                   <div>
-                    <Label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700 mb-1">Email Address</Label>
-                    <Input type="email" id="contactEmail" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required className="w-full" placeholder="e.g. jane.doe@example.com"/>
+                    <Label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700 mb-1">Adresse e-mail</Label>
+                    <Input type="email" id="contactEmail" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required className="w-full" placeholder="Ex: jeanne.dupont@example.com"/>
                   </div>
                   <div>
-                    <Label htmlFor="contactCompany" className="block text-sm font-medium text-gray-700 mb-1">Company (Optional)</Label>
-                    <Input type="text" id="contactCompany" value={contactCompany} onChange={(e) => setContactCompany(e.target.value)} className="w-full" placeholder="e.g. Acme Corp"/>
+                    <Label htmlFor="contactCompany" className="block text-sm font-medium text-gray-700 mb-1">Société (Optionnel)</Label>
+                    <Input type="text" id="contactCompany" value={contactCompany} onChange={(e) => setContactCompany(e.target.value)} className="w-full" placeholder="Ex: Acme Corp"/>
                   </div>
-                  <Button type="submit" className="w-full text-lg py-3">Submit Request</Button>
+                  <Button type="submit" className="w-full text-lg py-3">Envoyer la demande</Button>
                 </form>
               ) : (
                 <div className="text-center bg-green-50 p-8 rounded-lg shadow-md">
-                  <h3 className="text-xl font-semibold text-green-700 mb-3">Thank You!</h3>
-                  <p className="text-gray-700">Your request has been submitted. We will get back to you shortly.</p>
-                  <p className="text-sm text-gray-600 mt-2">Details:</p>
+                  <h3 className="text-xl font-semibold text-green-700 mb-3">Merci !</h3>
+                  <p className="text-gray-700">Votre demande a été soumise. Nous vous recontacterons sous peu.</p>
+                  <p className="text-sm text-gray-600 mt-2">Détails :</p>
                   <ul className="text-xs text-gray-500 list-disc list-inside">
-                    <li>Bike: {selectedBike?.model}</li>
-                    <li>Total Price: €{totalPrice.toLocaleString()}</li>
-                    <li>Name: {contactName}</li>
-                    <li>Email: {contactEmail}</li>
+                    <li>Vélo : {selectedBike?.nom_modele_fr || selectedBike?.model}</li>
+                    <li>Prix Total : €{totalPrice.toLocaleString()}</li>
+                    <li>Nom : {contactName}</li>
+                    <li>Email : {contactEmail}</li>
                     {contactCompany && <li>Company: {contactCompany}</li>}
                   </ul>
                   <Button onClick={() => {setFormSubmitted(false); setContactName(''); setContactEmail(''); setContactCompany('');}} className="mt-6">
