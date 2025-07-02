@@ -15,6 +15,7 @@ interface OptionConfig { // Renamed from Option to avoid conflict with HTMLOptio
   type: 'boolean' | 'choice'; // 'choice' could involve sub_options or a different rendering
   default_value?: boolean;    // Indicates if the option is selected by default
   category?: string;          // To group options or handle special logic e.g. "thermal_choice"
+  description?: string;       // Description for tooltip/popover
   // sub_options?: OptionConfig[]; // For future 'choice' type
 }
 
@@ -210,8 +211,10 @@ const ConfiguratorPage = () => {
           </div>
         </>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          <div>
+        // New 2-column layout for selected bike view
+        <div className="flex flex-col md:flex-row gap-8 items-start">
+          {/* Left Column (Image - Anchored/Sticky) */}
+          <div className="w-full md:w-1/2 md:sticky md:top-8">
             <button
               onClick={() => setSelectedBike(null)}
               className="mb-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow transition-colors"
@@ -219,49 +222,83 @@ const ConfiguratorPage = () => {
               &larr; Back to Models
             </button>
             {selectedBike.image_filename && (
-              <div className="relative w-full h-96 rounded-lg overflow-hidden shadow-lg mb-6">
+              <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src={`/assets/images/${selectedBike.image_filename}`}
                   alt={selectedBike.model}
                   layout="fill"
-                  objectFit="contain" // Use 'contain' to see the whole image
+                  objectFit="contain"
                 />
               </div>
             )}
           </div>
-          <div>
-            <h2 className="text-3xl font-bold mb-2">{selectedBike.model}</h2>
-            <p className="text-lg text-gray-700 mb-1">{selectedBike.manufacturer}</p>
-            <p className="text-md text-gray-600 mb-4">{selectedBike.category}</p>
-            <p className="text-2xl font-semibold text-blue-600 mb-6">Base Price: €{selectedBike.base_price?.toLocaleString()}</p>
 
-            <div className="mt-6 p-4 border rounded-lg bg-gray-50 shadow">
-              <h3 className="text-xl font-semibold mb-4">Customization Options</h3>
-              {(selectedBike?.options && selectedBike.options.length > 0) ? (
-                <div className="space-y-3">
-                  {selectedBike.options.map((option) => (
-                    <div key={option.id} className="flex items-center space-x-2 p-2 rounded hover:bg-gray-100">
-                      <Checkbox
-                        id={option.id}
-                        checked={selectedOptions[option.id] || false}
-                        onCheckedChange={() => handleOptionChange(option.id, option.category)}
-                        // TODO: Disable other options in the same "choice" group if one is selected and they are radio-like
-                      />
-                      <Label htmlFor={option.id} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        {option.label}
-                        {option.price > 0 && <span className="text-xs text-gray-500 ml-2">(+€{option.price.toLocaleString()})</span>}
-                        {!option.price && selectedBike.base_price && option.default_value === undefined && <span className="text-xs text-gray-400 ml-2">(Included)</span>}
-                         {option.price === 0 && option.default_value !== true && <span className="text-xs text-green-600 ml-2">(Free Option)</span>}
-                      </Label>
+          {/* Right Column (Details, Options, Summary, Form - Scrollable) */}
+          <div className="w-full md:w-1/2 space-y-6">
+            <div> {/* Details Section */}
+              <h2 className="text-3xl font-bold mb-2">{selectedBike.model}</h2>
+              <p className="text-lg text-gray-700 mb-1">{selectedBike.manufacturer}</p>
+              <p className="text-md text-gray-600 mb-4">{selectedBike.category}</p>
+              <p className="text-2xl font-semibold text-blue-600 mb-6">Base Price: €{selectedBike.base_price?.toLocaleString()}</p>
+            </div>
+
+            <div className="p-4 border rounded-lg bg-gray-50 shadow"> {/* Options Section */}
+              <h3 className="text-xl font-semibold mb-4 text-center">Customization Options</h3>
+              {selectedBike?.options && selectedBike.options.length > 0 ? (
+                (() => {
+                  const groupedOptions: Record<string, OptionConfig[]> = {};
+                  selectedBike.options!.forEach(option => {
+                    const category = option.category || "General";
+                    if (!groupedOptions[category]) {
+                      groupedOptions[category] = [];
+                    }
+                    groupedOptions[category].push(option);
+                  });
+
+                  const categoryOrder = ["available_configurations", "comfort_equipment", "safety_features", "storage", "storage.box_storage", "braking", "thermal_choice", "General"];
+                  const sortedCategories = Object.keys(groupedOptions).sort((a, b) => {
+                    let indexA = categoryOrder.indexOf(a);
+                    let indexB = categoryOrder.indexOf(b);
+                    if (indexA === -1) indexA = categoryOrder.length;
+                    if (indexB === -1) indexB = categoryOrder.length;
+                    return indexA - indexB;
+                  });
+
+                  return sortedCategories.map(category => (
+                    <div key={category} className="mb-6">
+                      <h4 className="text-lg font-medium capitalize text-gray-700 mb-3 border-b pb-2">
+                        {category.replace(/_/g, ' ').replace(/\./g, ' - ')}
+                      </h4>
+                      <div className="space-y-3">
+                        {groupedOptions[category].map((option) => (
+                          <div key={option.id} className="flex items-center space-x-2 p-2 rounded hover:bg-gray-100">
+                            <Checkbox
+                              id={option.id}
+                              checked={selectedOptions[option.id] || false}
+                              onCheckedChange={() => handleOptionChange(option.id, option.category)}
+                            />
+                            <Label
+                              htmlFor={option.id}
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              title={option.description}
+                            >
+                              {option.label}
+                              {option.price > 0 && <span className="text-xs text-gray-500 ml-2">(+€{option.price.toLocaleString()})</span>}
+                              {!option.price && selectedBike.base_price && option.default_value === undefined && !option.category?.includes("choice") && <span className="text-xs text-gray-400 ml-2">(Included)</span>}
+                              {option.price === 0 && option.default_value !== true && !option.category?.includes("choice") && <span className="text-xs text-green-600 ml-2">(Free Option)</span>}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  ));
+                })()
               ) : (
-                <p className="text-gray-500">No specific customization options listed for this model, or they are included as standard.</p>
+                <p className="text-gray-500 text-center">No specific customization options listed for this model, or they are included as standard.</p>
               )}
             </div>
 
-            <div className="mt-6 p-6 border rounded-lg bg-white shadow-md md:sticky md:top-4">
+            <div className="p-6 border rounded-lg bg-white shadow-md"> {/* Summary Section */}
               <h3 className="text-xl font-semibold mb-1 text-gray-700">Configuration Summary</h3>
               <p className="text-sm text-gray-500 mb-3">Base Price: €{selectedBike.base_price?.toLocaleString()}</p>
               <div className="mb-3">
@@ -286,73 +323,47 @@ const ConfiguratorPage = () => {
                 <p className="text-2xl font-bold text-blue-700">€{totalPrice.toLocaleString()}</p>
               </div>
             </div>
+
+            {/* Contact Form moved here */}
+            <div className="mt-8 border-t pt-8">
+              <h2 className="text-2xl font-semibold mb-6 text-center">Request a Quote / More Information</h2>
+              {!formSubmitted ? (
+                <form onSubmit={handleFormSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
+                  <div>
+                    <Label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">Full Name</Label>
+                    <Input type="text" id="contactName" value={contactName} onChange={(e) => setContactName(e.target.value)} required className="w-full" placeholder="e.g. Jane Doe"/>
+                  </div>
+                  <div>
+                    <Label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700 mb-1">Email Address</Label>
+                    <Input type="email" id="contactEmail" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required className="w-full" placeholder="e.g. jane.doe@example.com"/>
+                  </div>
+                  <div>
+                    <Label htmlFor="contactCompany" className="block text-sm font-medium text-gray-700 mb-1">Company (Optional)</Label>
+                    <Input type="text" id="contactCompany" value={contactCompany} onChange={(e) => setContactCompany(e.target.value)} className="w-full" placeholder="e.g. Acme Corp"/>
+                  </div>
+                  <Button type="submit" className="w-full text-lg py-3">Submit Request</Button>
+                </form>
+              ) : (
+                <div className="text-center bg-green-50 p-8 rounded-lg shadow-md">
+                  <h3 className="text-xl font-semibold text-green-700 mb-3">Thank You!</h3>
+                  <p className="text-gray-700">Your request has been submitted. We will get back to you shortly.</p>
+                  <p className="text-sm text-gray-600 mt-2">Details:</p>
+                  <ul className="text-xs text-gray-500 list-disc list-inside">
+                    <li>Bike: {selectedBike?.model}</li>
+                    <li>Total Price: €{totalPrice.toLocaleString()}</li>
+                    <li>Name: {contactName}</li>
+                    <li>Email: {contactEmail}</li>
+                    {contactCompany && <li>Company: {contactCompany}</li>}
+                  </ul>
+                  <Button onClick={() => {setFormSubmitted(false); setContactName(''); setContactEmail(''); setContactCompany('');}} className="mt-6">
+                    Submit Another Request
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
-
-      {/* Spacer before contact form if a bike is selected */}
-      {selectedBike && <div className="my-12 border-t pt-12">
-        <h2 className="text-2xl font-semibold mb-8 text-center">Request a Quote / More Information</h2>
-        {!formSubmitted ? (
-          <form onSubmit={handleFormSubmit} className="max-w-lg mx-auto space-y-6 bg-white p-8 rounded-lg shadow-md">
-            <div>
-              <Label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">Full Name</Label>
-              <Input
-                type="text"
-                id="contactName"
-                value={contactName}
-                onChange={(e) => setContactName(e.target.value)}
-                required
-                className="w-full"
-                placeholder="e.g. Jane Doe"
-              />
-            </div>
-            <div>
-              <Label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700 mb-1">Email Address</Label>
-              <Input
-                type="email"
-                id="contactEmail"
-                value={contactEmail}
-                onChange={(e) => setContactEmail(e.target.value)}
-                required
-                className="w-full"
-                placeholder="e.g. jane.doe@example.com"
-              />
-            </div>
-            <div>
-              <Label htmlFor="contactCompany" className="block text-sm font-medium text-gray-700 mb-1">Company (Optional)</Label>
-              <Input
-                type="text"
-                id="contactCompany"
-                value={contactCompany}
-                onChange={(e) => setContactCompany(e.target.value)}
-                className="w-full"
-                placeholder="e.g. Acme Corp"
-              />
-            </div>
-            <Button type="submit" className="w-full text-lg py-3">
-              Submit Request
-            </Button>
-          </form>
-        ) : (
-          <div className="text-center max-w-lg mx-auto bg-green-50 p-8 rounded-lg shadow-md">
-            <h3 className="text-xl font-semibold text-green-700 mb-3">Thank You!</h3>
-            <p className="text-gray-700">Your request has been submitted. We will get back to you shortly.</p>
-            <p className="text-sm text-gray-600 mt-2">Details:</p>
-            <ul className="text-xs text-gray-500 list-disc list-inside">
-              <li>Bike: {selectedBike?.model}</li>
-              <li>Total Price: €{totalPrice.toLocaleString()}</li>
-              <li>Name: {contactName}</li>
-              <li>Email: {contactEmail}</li>
-              {contactCompany && <li>Company: {contactCompany}</li>}
-            </ul>
-            <Button onClick={() => {setFormSubmitted(false); setContactName(''); setContactEmail(''); setContactCompany('');}} className="mt-6">
-              Submit Another Request
-            </Button>
-          </div>
-        )}
-      </div>}
-      {/* Submit button will go here */}
     </div>
   );
 };

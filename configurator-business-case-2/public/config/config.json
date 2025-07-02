@@ -23,10 +23,10 @@
     },
     "maneuverability": null,
     "options": [
-      {"id": "sideboard_extension", "label": "Sideboard Extension", "price": 220, "type": "boolean", "default_value": false, "category": "storage"},
-      {"id": "deversement_mecanique", "label": "Déversement mécanique", "price": 450, "type": "boolean", "default_value": true, "category": "available_configurations"}, // Assuming this is standard but listed
-      {"id": "portillons_lateraux", "label": "Portillons latéraux", "price": 300, "type": "boolean", "default_value": true, "category": "available_configurations"}, // Assuming this is standard but listed
-      {"id": "bequilles_stabilisatrices", "label": "Béquilles stabilisatrices", "price": 180, "type": "boolean", "default_value": true, "category": "available_configurations"} // Assuming this is standard but listed
+      {"id": "sideboard_extension", "label": "Sideboard Extension", "price": 220, "type": "boolean", "default_value": false, "category": "storage", "description": "Extends the height of the sideboards for increased carrying volume."},
+      {"id": "deversement_mecanique", "label": "Déversement mécanique", "price": 450, "type": "boolean", "default_value": true, "category": "available_configurations", "description": "Allows for mechanical tipping of the cargo bed. Standard feature."},
+      {"id": "portillons_lateraux", "label": "Portillons latéraux", "price": 300, "type": "boolean", "default_value": true, "category": "available_configurations", "description": "Side gates for easy access to the cargo area. Standard feature."},
+      {"id": "bequilles_stabilisatrices", "label": "Béquilles stabilisatrices", "price": 180, "type": "boolean", "default_value": true, "category": "available_configurations", "description": "Stabilizer legs for added stability during loading/unloading. Standard feature."}
     ],
     "available_configurations_original_text": ["Déversement mécanique", "Portillons latéraux", "Béquilles stabilisatrices"],
     "notes": "Performance : se déverse mécaniquement en 20 secondes. Capacité : 250 kg et 1.2 m³. Autonomie jusqu’à 70 km.*"
@@ -57,8 +57,8 @@
     },
     "maneuverability": null,
     "options": [
-      {"id": "sideboard_extension", "label": "Sideboard Extension", "price": 200, "type": "boolean", "default_value": false, "category": "storage"},
-      {"id": "plateau_court", "label": "Plateau court", "price": 0, "type": "boolean", "default_value": true, "category": "available_configurations"} // Assuming standard feature
+      {"id": "sideboard_extension", "label": "Sideboard Extension", "price": 200, "type": "boolean", "default_value": false, "category": "storage", "description": "Optional extension for the sideboards to increase carrying capacity."},
+      {"id": "plateau_court", "label": "Plateau court", "price": 0, "type": "boolean", "default_value": true, "category": "available_configurations", "description": "Standard short flatbed configuration."}
     ],
     "available_configurations_original_text": ["plateau court"],
     "notes": "Les informations sont susceptibles de modifications. L’autonomie dépend de l’usage réel."
@@ -87,9 +87,9 @@
     },
     "maneuverability": null,
     "options": [
-      {"id": "thermal_isotherme", "label": "Isotherme", "price": 500, "type": "boolean", "default_value": true, "category": "thermal_choice"},
-      {"id": "thermal_froid_plus", "label": "Froid +", "price": 700, "type": "boolean", "default_value": false, "category": "thermal_choice"},
-      {"id": "thermal_froid_minus", "label": "Froid -", "price": 900, "type": "boolean", "default_value": false, "category": "thermal_choice"}
+      {"id": "thermal_isotherme", "label": "Isotherme", "price": 500, "type": "boolean", "default_value": true, "category": "thermal_choice", "description": "Isothermal configuration for temperature-sensitive goods. Base thermal option."},
+      {"id": "thermal_froid_plus", "label": "Froid +", "price": 700, "type": "boolean", "default_value": false, "category": "thermal_choice", "description": "Positive cold chain configuration for refrigerated transport."},
+      {"id": "thermal_froid_minus", "label": "Froid -", "price": 900, "type": "boolean", "default_value": false, "category": "thermal_choice", "description": "Negative cold chain configuration for frozen goods transport."}
     ],
     "available_configurations_original_text": ["isotherme", "froid +", "froid -"],
     "notes": "Les informations sont susceptibles de modifications. L’autonomie dépend de l’usage réel."
@@ -136,19 +136,19 @@
     },
     "maneuverability": {"turning_radius_m": 2.4},
     "options": [
-      {"id": "parking_brake_electric", "label": "Parking Brake (Electric)", "price": 200, "type": "boolean", "default_value": false, "category": "braking"},
-      {"id": "reverse_alarm", "label": "Reverse Alarm", "price": 80, "type": "boolean", "default_value": false, "category": "safety_features"},
-      {"id": "rear_radar", "label": "Rear Radar", "price": 150, "type": "boolean", "default_value": false, "category": "safety_features"},
-      {"id": "hill_start_assist", "label": "Hill Start Assist", "price": 120, "type": "boolean", "default_value": false, "category": "safety_features"},
-      {"id": "roof", "label": "Roof", "price": 350, "type": "boolean", "default_value": false, "category": "comfort_equipment"},
-      {"id": "phone_mount", "label": "Phone Mount", "price": 50, "type": "boolean", "default_value": false, "category": "comfort_equipment"},
-      {"id": "rfid_door_opening", "label": "RFID Door Opening", "price": 180, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
-      {"id": "flat_bottom_shelf", "label": "Flat Bottom Shelf", "price": 90, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
-      {"id": "interior_light_box", "label": "Interior Light (Box)", "price": 70, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
-      {"id": "aero_tie_down_rails", "label": "Aero Tie-Down Rails", "price": 110, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
-      {"id": "adjustable_height_shelf", "label": "Adjustable Height Shelf", "price": 130, "type": "boolean", "default_value": false, "category": "storage.box_storage"},
-      {"id": "amenagements_interieurs_modulables", "label": "Aménagements intérieurs modulables", "price": 250, "type": "boolean", "default_value": false, "category": "available_configurations"},
-      {"id": "porte_arriere_laterale_droite", "label": "Porte arrière et latérale droite", "price": 300, "type": "boolean", "default_value": false, "category": "available_configurations"}
+      {"id": "parking_brake_electric", "label": "Parking Brake (Electric)", "price": 200, "type": "boolean", "default_value": false, "category": "braking", "description": "Adds an electric parking brake system."},
+      {"id": "reverse_alarm", "label": "Reverse Alarm", "price": 80, "type": "boolean", "default_value": false, "category": "safety_features", "description": "Audible alarm when reversing."},
+      {"id": "rear_radar", "label": "Rear Radar", "price": 150, "type": "boolean", "default_value": false, "category": "safety_features", "description": "Radar system for detecting obstacles at the rear."},
+      {"id": "hill_start_assist", "label": "Hill Start Assist", "price": 120, "type": "boolean", "default_value": false, "category": "safety_features", "description": "Assists in starting on an incline without rolling back."},
+      {"id": "roof", "label": "Roof", "price": 350, "type": "boolean", "default_value": false, "category": "comfort_equipment", "description": "Adds a roof for weather protection."},
+      {"id": "phone_mount", "label": "Phone Mount", "price": 50, "type": "boolean", "default_value": false, "category": "comfort_equipment", "description": "Mount for securing a smartphone."},
+      {"id": "rfid_door_opening", "label": "RFID Door Opening", "price": 180, "type": "boolean", "default_value": false, "category": "storage.box_storage", "description": "Allows box door opening via RFID."},
+      {"id": "flat_bottom_shelf", "label": "Flat Bottom Shelf", "price": 90, "type": "boolean", "default_value": false, "category": "storage.box_storage", "description": "A flat shelf for the bottom of the storage box."},
+      {"id": "interior_light_box", "label": "Interior Light (Box)", "price": 70, "type": "boolean", "default_value": false, "category": "storage.box_storage", "description": "Adds lighting inside the storage box."},
+      {"id": "aero_tie_down_rails", "label": "Aero Tie-Down Rails", "price": 110, "type": "boolean", "default_value": false, "category": "storage.box_storage", "description": "Rails for securing cargo with aero-style tie-downs."},
+      {"id": "adjustable_height_shelf", "label": "Adjustable Height Shelf", "price": 130, "type": "boolean", "default_value": false, "category": "storage.box_storage", "description": "Shelf inside the box with adjustable height."},
+      {"id": "amenagements_interieurs_modulables", "label": "Aménagements intérieurs modulables", "price": 250, "type": "boolean", "default_value": false, "category": "available_configurations", "description": "Modular interior fittings for customizable storage solutions."},
+      {"id": "porte_arriere_laterale_droite", "label": "Porte arrière et latérale droite", "price": 300, "type": "boolean", "default_value": false, "category": "available_configurations", "description": "Rear door and right-side lateral door for cargo access."}
     ],
     "available_configurations_original_text": ["Aménagements intérieurs modulables", "Porte arrière et latérale droite"],
     "notes": "Capacité de 150 kg et 1.5 m³, autonomie jusqu’à 35 km (sur batterie pleine)*. Maniabilité rayon 2.4 m."
@@ -177,8 +177,8 @@
     },
     "maneuverability": {"turning_radius_m": 2.4},
     "options": [
-      {"id": "rideau_lateral_droit", "label": "Rideau latéral droit", "price": 350, "type": "boolean", "default_value": false, "category": "available_configurations"},
-      {"id": "porte_arriere_laterale_droite_box", "label": "Porte arrière et latérale droite", "price": 320, "type": "boolean", "default_value": false, "category": "available_configurations"}
+      {"id": "rideau_lateral_droit", "label": "Rideau latéral droit", "price": 350, "type": "boolean", "default_value": false, "category": "available_configurations", "description": "Right-side roller shutter for easy cargo access."},
+      {"id": "porte_arriere_laterale_droite_box", "label": "Porte arrière et latérale droite", "price": 320, "type": "boolean", "default_value": false, "category": "available_configurations", "description": "Rear door and right-side lateral door for the box."}
     ],
     "available_configurations_original_text": ["Rideau latéral droit", "Porte arrière et latérale droite"],
     "notes": "Capacité de 300 kg et 2 m³, autonomie jusqu’à 80 km (sur batterie pleine)*. Maniabilité rayon 2.4 m."
@@ -223,18 +223,18 @@
     },
     "maneuverability": {"turning_radius_m": 2.4},
     "options": [
-      {"id": "pickup350_parking_brake_electric", "label": "Parking Brake (Electric)", "price": 180, "type": "boolean", "default_value": false, "category": "braking"},
-      {"id": "pickup350_reverse_alarm", "label": "Reverse Alarm", "price": 70, "type": "boolean", "default_value": false, "category": "safety_features"},
-      {"id": "pickup350_rear_radar", "label": "Rear Radar", "price": 140, "type": "boolean", "default_value": false, "category": "safety_features"},
-      {"id": "pickup350_hill_start_assist", "label": "Hill Start Assist", "price": 110, "type": "boolean", "default_value": false, "category": "safety_features"},
-      {"id": "pickup350_roof", "label": "Roof", "price": 300, "type": "boolean", "default_value": false, "category": "comfort_equipment"},
-      {"id": "pickup350_phone_mount", "label": "Phone Mount", "price": 45, "type": "boolean", "default_value": false, "category": "comfort_equipment"},
-      {"id": "pickup350_front_face", "label": "Front Face", "price": 150, "type": "boolean", "default_value": false, "category": "storage"},
-      {"id": "pickup350_sideboard", "label": "Sideboard", "price": 250, "type": "boolean", "default_value": false, "category": "storage"},
-      {"id": "pickup350_sideboard_extension", "label": "Sideboard Extension", "price": 120, "type": "boolean", "default_value": false, "category": "storage"},
-      {"id": "pickup350_plateau_simple", "label": "Plateau simple", "price": 0, "type": "boolean", "default_value": true, "category": "available_configurations"},
-      {"id": "pickup350_ridelles", "label": "Ridelles", "price": 280, "type": "boolean", "default_value": false, "category": "available_configurations"},
-      {"id": "pickup350_rehausses_ridelles", "label": "Réhausses ridelles", "price": 180, "type": "boolean", "default_value": false, "category": "available_configurations"}
+      {"id": "pickup350_parking_brake_electric", "label": "Parking Brake (Electric)", "price": 180, "type": "boolean", "default_value": false, "category": "braking", "description": "Electric parking brake for the Pick-up 350."},
+      {"id": "pickup350_reverse_alarm", "label": "Reverse Alarm", "price": 70, "type": "boolean", "default_value": false, "category": "safety_features", "description": "Audible alarm when reversing."},
+      {"id": "pickup350_rear_radar", "label": "Rear Radar", "price": 140, "type": "boolean", "default_value": false, "category": "safety_features", "description": "Rear radar for obstacle detection."},
+      {"id": "pickup350_hill_start_assist", "label": "Hill Start Assist", "price": 110, "type": "boolean", "default_value": false, "category": "safety_features", "description": "Assists starting on inclines."},
+      {"id": "pickup350_roof", "label": "Roof", "price": 300, "type": "boolean", "default_value": false, "category": "comfort_equipment", "description": "Optional roof for the Pick-up 350."},
+      {"id": "pickup350_phone_mount", "label": "Phone Mount", "price": 45, "type": "boolean", "default_value": false, "category": "comfort_equipment", "description": "Mount for a smartphone."},
+      {"id": "pickup350_front_face", "label": "Front Face", "price": 150, "type": "boolean", "default_value": false, "category": "storage", "description": "Optional front face for the cargo area."},
+      {"id": "pickup350_sideboard", "label": "Sideboard", "price": 250, "type": "boolean", "default_value": false, "category": "storage", "description": "Sideboards for the cargo bed."},
+      {"id": "pickup350_sideboard_extension", "label": "Sideboard Extension", "price": 120, "type": "boolean", "default_value": false, "category": "storage", "description": "Extensions for the sideboards."},
+      {"id": "pickup350_plateau_simple", "label": "Plateau simple", "price": 0, "type": "boolean", "default_value": true, "category": "available_configurations", "description": "Standard simple flatbed configuration."},
+      {"id": "pickup350_ridelles", "label": "Ridelles", "price": 280, "type": "boolean", "default_value": false, "category": "available_configurations", "description": "Adds sideboards (ridelles) to the flatbed."},
+      {"id": "pickup350_rehausses_ridelles", "label": "Réhausses ridelles", "price": 180, "type": "boolean", "default_value": false, "category": "available_configurations", "description": "Extensions for the sideboards (réhausses ridelles)."}
     ],
     "available_configurations_original_text": ["Plateau simple", "Ridelles", "Réhausses ridelles"],
     "notes": "Données Pick-up 350 issues de pick-up-fr.pdf"
@@ -264,9 +264,9 @@
     },
     "maneuverability": {"turning_radius_m": 2.4},
     "options": [
-      {"id": "pickupfg_sideboard_extension", "label": "Sideboard Extension", "price": 240, "type": "boolean", "default_value": false, "category": "storage"},
-      {"id": "pickupfg_ridelles", "label": "Ridelles", "price": 300, "type": "boolean", "default_value": true, "category": "available_configurations"}, // Assuming standard
-      {"id": "pickupfg_rehausses_ridelles", "label": "Réhausses ridelles", "price": 190, "type": "boolean", "default_value": false, "category": "available_configurations"}
+      {"id": "pickupfg_sideboard_extension", "label": "Sideboard Extension", "price": 240, "type": "boolean", "default_value": false, "category": "storage", "description": "Optional extensions for the sideboards on the Pick-up Freegônes."},
+      {"id": "pickupfg_ridelles", "label": "Ridelles", "price": 300, "type": "boolean", "default_value": true, "category": "available_configurations", "description": "Standard sideboards (ridelles) for the cargo bed."},
+      {"id": "pickupfg_rehausses_ridelles", "label": "Réhausses ridelles", "price": 190, "type": "boolean", "default_value": false, "category": "available_configurations", "description": "Optional extensions for the sideboards (réhausses ridelles)."}
     ],
     "available_configurations_original_text": ["Ridelles", "Réhausses ridelles"],
     "notes": "Données Pick-up freegones issues de pick-up-fr.pdf"
