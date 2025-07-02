@@ -1,37 +1,34 @@
-"use client"; // Add this line to mark as a Client Component
+"use client";
 
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Assuming this is the correct path
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-interface OptionConfig { // Renamed from Option to avoid conflict with HTMLOptionElement if used globally
+interface OptionConfig {
   id: string;
   label: string;
   price: number;
-  type: 'boolean' | 'choice'; // 'choice' could involve sub_options or a different rendering
-  default_value?: boolean;    // Indicates if the option is selected by default
-  category?: string;          // To group options or handle special logic e.g. "thermal_choice"
-  description?: string;       // Description for tooltip/popover
-  image_filename_override?: string; // Optional image to display when this option is selected
-  // sub_options?: OptionConfig[]; // For future 'choice' type
+  type: 'boolean' | 'choice';
+  default_value?: boolean;
+  category?: string;
+  description?: string;
+  image_filename_override?: string;
 }
 
 interface BikeModel {
-  model: string; // Keep original model ID for keys if it's stable
-  nom_modele_fr: string; // French display name
-  fabricant: string; // Already in French in V1, but good to ensure consistency
-  categorie_fr: string; // French category
-  usages_fr?: string[]; // French usage list
+  model: string;
+  nom_modele_fr: string;
+  fabricant: string;
+  categorie_fr: string;
+  usages_fr?: string[];
   base_price: number;
   image_filename: string;
   options?: OptionConfig[];
-  introduction_fr?: string; // Added introduction field
-  // Add other French-keyed standard equipment fields if they need to be accessed directly for display
-  // e.g., batterie_standard, moteur_standard, notes_fr
+  introduction_fr?: string;
   [key: string]: any;
 }
 
@@ -46,15 +43,13 @@ const ConfiguratorPage = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [currentDisplayImage, setCurrentDisplayImage] = useState<string | null>(null);
 
-  // State for contact form
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactCompany, setContactCompany] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-
   useEffect(() => {
-    fetch('/config/config_v2.json') // USE V2 CONFIG FILE
+    fetch('/config/config_v2.json')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
@@ -83,16 +78,15 @@ const ConfiguratorPage = () => {
 
       setSelectedOptions(initialSelected);
       setTotalPrice(currentTotalPrice);
-      setCurrentDisplayImage(bike.image_filename); // Set initial display image
+      // CORRECTED HERE:
+      setCurrentDisplayImage(selectedBike.image_filename);
 
-      // If it's Pick-up 350, find the default selected platform option and set its image
-      if (bike.model === "Pick-up 350") {
-        const defaultPlatformOption = bike.options?.find(opt => opt.category === "Type de plateau" && initialSelected[opt.id]);
+      if (selectedBike.model === "Pick-up 350") { // CORRECTED HERE
+        const defaultPlatformOption = selectedBike.options?.find(opt => opt.category === "Type de plateau" && initialSelected[opt.id]); // CORRECTED HERE
         if (defaultPlatformOption && defaultPlatformOption.image_filename_override) {
           setCurrentDisplayImage(defaultPlatformOption.image_filename_override);
         }
       }
-
     } else {
       setSelectedOptions({});
       setTotalPrice(0);
@@ -100,16 +94,14 @@ const ConfiguratorPage = () => {
     }
   }, [selectedBike]);
 
-  // Recalculate price and update display image when options change
   useEffect(() => {
     if (selectedBike) {
       let newTotal = selectedBike.base_price || 0;
-      let newImage = selectedBike.image_filename; // Default image
+      let newImage = selectedBike.image_filename;
 
       (selectedBike.options || []).forEach(opt => {
         if (selectedOptions[opt.id]) {
           newTotal += opt.price;
-          // Check for image override, specifically for Pick-up 350 platform type
           if (selectedBike.model === "Pick-up 350" && opt.category === "Type de plateau" && opt.image_filename_override) {
             newImage = opt.image_filename_override;
           }
@@ -120,7 +112,6 @@ const ConfiguratorPage = () => {
     }
   }, [selectedOptions, selectedBike]);
 
-
   const handleSelectBike = (bike: BikeModel) => {
     setSelectedBike(bike);
   };
@@ -128,35 +119,23 @@ const ConfiguratorPage = () => {
   const handleOptionChange = (optionId: string, category?: string) => {
     setSelectedOptions(prev => {
       const newSelected = { ...prev };
-
-      // Handle 'thermal_choice' category for mutually exclusive selection
       if (category === 'Configuration thermique' || (selectedBike?.model === "Pick-up 350" && category === "Type de plateau")) {
-        // If the clicked option is already selected and it's a type that must have one selection (e.g. Type de plateau), do nothing.
         if (newSelected[optionId] && category === "Type de plateau") {
-          return prev; // No change if clicking the already selected mandatory choice
+          return prev;
         }
-
-        // Deselect all other options in this exclusive group
         (selectedBike?.options || []).forEach(opt => {
           if (opt.category === category) {
             newSelected[opt.id] = false;
           }
         });
-        // Select the clicked one (it might have been deselected if it was a toggleable choice like thermal)
         newSelected[optionId] = !prev[optionId] || category === "Type de plateau" ? true : !prev[optionId];
-
-        // Ensure for "Type de plateau" that one is always selected after a change
         if (selectedBike?.model === "Pick-up 350" && category === "Type de plateau") {
             const isAnySelected = (selectedBike?.options || []).some(opt => opt.category === category && newSelected[opt.id]);
             if(!isAnySelected) {
-                // This case should ideally not be reached if one is default and cannot be deselected by clicking itself.
-                // If somehow all get deselected, re-select the clicked one or a default.
                 newSelected[optionId] = true;
             }
         }
-
       } else {
-        // Regular toggle for other options
         newSelected[optionId] = !newSelected[optionId];
       }
       return newSelected;
@@ -166,16 +145,14 @@ const ConfiguratorPage = () => {
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const submissionData = {
-      bikeModel: selectedBike?.model,
+      bikeModel: selectedBike?.nom_modele_fr || selectedBike?.model, // Use French name
       totalPrice,
-      options: selectedOptions, // Consider sending a more structured version of options if needed
+      options: selectedOptions,
       contactName,
       contactEmail,
       contactCompany,
     };
-
     console.log("Submitting Data:", submissionData);
-
     fetch('/api/submit-configuration', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -194,22 +171,16 @@ const ConfiguratorPage = () => {
     })
     .catch((error) => {
       console.error('Error submitting form to API:', error);
-      // Optionally, show an error message to the user
-      alert(`Error submitting request: ${error.message}`);
-      // Keep form active if submission fails
+      alert(`Erreur lors de la soumission de la demande: ${error.message}`); // Translated error
       setFormSubmitted(false);
     });
-
-    // setFormSubmitted(true); // Moved to .then() to only show success if API call is successful (or appears so)
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-8"> {/* Added more padding on medium screens up */}
-      {/* Main title removed */}
-
+    <div className="container mx-auto p-4 md:p-8">
       {!selectedBike ? (
         <>
-          <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center">Choisissez un modèle de vélo</h2> {/* Translated & styled */}
+          <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center">Choisissez un modèle de vélo</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {bikeModels.map((bike) => (
               <Card key={bike.model} onClick={() => handleSelectBike(bike)} className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden">
@@ -217,18 +188,18 @@ const ConfiguratorPage = () => {
                   <div className="relative w-full h-48">
                     <Image
                       src={`/assets/images/${bike.image_filename}`}
-                      alt={bike.nom_modele_fr || bike.model} // Use French name for alt text
+                      alt={bike.nom_modele_fr || bike.model}
                       layout="fill"
                       objectFit="cover"
                     />
                   </div>
                 )}
                 <CardHeader>
-                  <CardTitle>{bike.nom_modele_fr || bike.model}</CardTitle> {/* Display French name */}
+                  <CardTitle>{bike.nom_modele_fr || bike.model}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-600">{bike.fabricant}</p> {/* Display French manufacturer */}
-                  <p className="text-md mt-1">{bike.categorie_fr}</p> {/* Display French category */}
+                  <p className="text-sm text-gray-600">{bike.fabricant}</p>
+                  <p className="text-md mt-1">{bike.categorie_fr}</p>
                   <p className="text-lg font-semibold mt-2">€{bike.base_price?.toLocaleString()}</p>
                 </CardContent>
               </Card>
@@ -236,32 +207,27 @@ const ConfiguratorPage = () => {
           </div>
         </>
       ) : (
-        // New 2-column layout for selected bike view
         <div className="flex flex-col md:flex-row gap-8 items-start">
-          {/* Left Column (Image - Anchored/Sticky) */}
           <div className="w-full md:w-1/2 md:sticky md:top-8">
             <button
               onClick={() => setSelectedBike(null)}
               className="mb-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow transition-colors"
             >
-              &larr; Retour aux modèles {/* Translated */}
+              &larr; Retour aux modèles
             </button>
             {selectedBike.image_filename && (
               <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src={`/assets/images/${currentDisplayImage || selectedBike.image_filename}`}
-                  alt={selectedBike.nom_modele_fr || selectedBike.model} // Use French name for alt text
+                  alt={selectedBike.nom_modele_fr || selectedBike.model}
                   layout="fill"
                   objectFit="contain"
-                  key={currentDisplayImage} // Add key to force re-render on image change
+                  key={currentDisplayImage}
                 />
               </div>
             )}
           </div>
-
-          {/* Right Column (Details, Options, Summary, Form - Scrollable) */}
-          <div className="w-full md:w-1/2 space-y-8"> {/* Increased spacing between major blocks */}
-            {/* Details Section - including new Introduction */}
+          <div className="w-full md:w-1/2 space-y-8">
             <div className="bg-white p-6 rounded-lg shadow">
               <h2 className="text-3xl font-bold mb-2">{selectedBike.nom_modele_fr || selectedBike.model}</h2>
               {selectedBike.introduction_fr && (
@@ -271,8 +237,6 @@ const ConfiguratorPage = () => {
               <p className="text-md text-gray-600 mb-4"><span className="font-semibold">Catégorie:</span> {selectedBike.categorie_fr}</p>
               <p className="text-2xl font-semibold text-blue-700">Prix de base : €{selectedBike.base_price?.toLocaleString()}</p>
             </div>
-
-            {/* Options Section - consistent styling */}
             <div className="p-6 border rounded-lg bg-white shadow">
               <h3 className="text-2xl font-semibold mb-6 text-center border-b pb-3">Options de personnalisation</h3>
               {selectedBike?.options && selectedBike.options.length > 0 ? (
@@ -285,8 +249,7 @@ const ConfiguratorPage = () => {
                     }
                     groupedOptions[category].push(option);
                   });
-
-                  const categoryOrderFr = ["Sécurité et conduite", "Équipements et confort", "Gestion du chargement", "Options de plateforme", "Options de chargement", "Gestion de la benne", "Configuration thermique", "Autres options"];
+                  const categoryOrderFr = ["Sécurité et conduite", "Équipements et confort", "Gestion du chargement", "Type de plateau", "Options de plateforme", "Options de chargement", "Gestion de la benne", "Configuration thermique", "Autres options"];
                   const sortedCategories = Object.keys(groupedOptions).sort((a, b) => {
                     let indexA = categoryOrderFr.indexOf(a);
                     let indexB = categoryOrderFr.indexOf(b);
@@ -294,7 +257,6 @@ const ConfiguratorPage = () => {
                     if (indexB === -1) indexB = categoryOrderFr.length;
                     return indexA - indexB;
                   });
-
                   return sortedCategories.map(category => (
                     <div key={category} className="mb-6 last:mb-0">
                       <h4 className="text-xl font-semibold text-gray-800 mb-3 border-b pb-2">
@@ -328,8 +290,6 @@ const ConfiguratorPage = () => {
                 <p className="text-gray-500 text-center py-4">Aucune option de personnalisation spécifique listée pour ce modèle, ou elles sont incluses de base.</p>
               )}
             </div>
-
-            {/* Summary Section - consistent styling */}
             <div className="p-6 border rounded-lg bg-white shadow">
               <h3 className="text-2xl font-semibold mb-3 text-gray-800 border-b pb-3">Récapitulatif</h3>
               <div className="space-y-1 text-sm mb-3">
@@ -350,8 +310,6 @@ const ConfiguratorPage = () => {
                 <p className="text-2xl font-bold text-blue-700">€{totalPrice.toLocaleString()}</p>
               </div>
             </div>
-
-            {/* Contact Form - consistent styling */}
             <div className="mt-8 pt-8 border-t">
               <h2 className="text-2xl font-semibold mb-6 text-center">Demander un devis / Plus d'informations</h2>
               {!formSubmitted ? (
@@ -380,10 +338,10 @@ const ConfiguratorPage = () => {
                     <li>Prix Total : €{totalPrice.toLocaleString()}</li>
                     <li>Nom : {contactName}</li>
                     <li>Email : {contactEmail}</li>
-                    {contactCompany && <li>Company: {contactCompany}</li>}
+                    {contactCompany && <li>Société: {contactCompany}</li>}
                   </ul>
                   <Button onClick={() => {setFormSubmitted(false); setContactName(''); setContactEmail(''); setContactCompany('');}} className="mt-6">
-                    Submit Another Request
+                    Envoyer une autre demande
                   </Button>
                 </div>
               )}
